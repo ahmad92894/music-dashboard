@@ -4,15 +4,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Music Dashboard</title>
-
 </head>
 <body>
-    <Header>Hello</Header>    
 
-    <footer>Goodby</footer>
+    <Header id="custom-header">
+        <div class="red lighten-3">
+            <div class="row">
+                <button id="go-to-concerts" class="left">Find Concerts Near You!</button>
+                <button id="go-to-profile" class="right">Go To Your Favorites</button>
+            </div>
+            <h1 id="welcom-header" class="center-align">Welcome to Music Dashboard!</h1>
+            <p id="welcome-paragraph" class="center-align">Search up any song, album or artist to find new music!</p>
+        </div>
+    </Header>    
+
+    <div class="row">
+        <form class="col s12">
+            <div class="row">
+                <div class= "input-field col s3">
+                    <input id="generic-serch" type="text" placeholder="Search">
+                </div>
+                <div class= "input-field col s3">
+                    <input id="artist-search" type="text" placeholder="Search Artist (Optional)">
+                </div>
+                <div class= "input-field col s2">
+                    <input id="genre-search" type="text" placeholder="Search Genre (Optional)">
+                </div>
+                <p class="input-field col s2">
+                    <label>
+                        <input type="checkbox" />
+                        <span>Find Songs</span>
+                    </label>
+                </p>
+                <p class="input-field col s2">
+                    <label>
+                        <input type="checkbox" />
+                        <span>Find Albums</span>
+                    </label>
+                </p>
+            </div>
+        </form>
+      </div>
+
+
+    <main>
+        <ul id="search-results"></ul>
+    </main>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
