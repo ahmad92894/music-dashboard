@@ -104,6 +104,26 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         searchHeaderContainer2.append(searchNav2);
         $("#row").append(searchHeaderContainer2);
 
+                //search history list istems
+
+    let ulSearchHistory=$("<ul>");
+        ulSearchHistory.addClass("collection");
+
+    for (let i = 0; i < ulSearchHistory.length; i++) {
+       
+    let liSearchHistory=$("<li>");
+        liSearchHistory.addClass("collection-item avatar");
+        liSearchHistory.text('something');
+    // let starIcon=$("<i>")
+        // starIcon.addClass("material-icons circle #80cbc4 teal lighten-3")
+        // starIcon.text(headset);
+        // starIcon.append(liSearchHistory);
+        ulSearchHistory.append(liSearchHistory);
+        $("#search-history-container").append(ulSearchHistory)
+
+    };
+  
+
         })
 }
 
@@ -188,3 +208,12 @@ $('#go-to-profile').on('click', function(){
     window.location.replace('./profile.html')
 })
      
+// let liSearchHistory=$("<li>");
+// liSearchHistory.addClass("collection-item avatar");
+// liSearchHistory.text('something');
+// let starIcon=$("<i>")
+// starIcon.addClass("material-icons circle #80cbc4 teal lighten-3")
+// starIcon.text("headset");
+// // console.log(starIcon);
+// ulSearchHistory.append(liSearchHistory);
+// $("#search-history-container").append(ulSearchHistory)
