@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Kanit:wght@100;300&family=Open+Sans:wght@300&family=Oswald:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Music Dashboard</title>
 </head>
 <body>
-
-    <Header id="custom-header">
+                          <!-- header -->
+    <header id="custom-header">
         <div class="red lighten-3">
             <div class="row">
                 <button id="go-to-concerts" class="left">Find Concerts Near You!</button>
                 <button id="go-to-profile" class="right">Go To Your Favorites</button>
             </div>
-            <h1 id="welcom-header" class="center-align">Welcome to Music Dashboard!</h1>
+            <h1 id="welcome-header" class="center-align">Welcome to Music Dashboard!</h1>
             <p id="welcome-paragraph" class="center-align">Search up any song, album or artist to find new music!</p>
         </div>
-    </Header>    
-
-    <div class="row">
+    </header>    
+                  <!-- search bar -->
+    <div class="row" id="custom-search-bars">
         <form class="col s12">
             <div class="row">
                 <div class= "input-field col s3">
@@ -48,7 +52,136 @@
             </div>
             <button id="submit-btn" class="btn waves-effect waves-light" type="submit" name="action">Search</button>
         </form>
+      <div class="container">
+        <button class="col s2 offset-s5 btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
       </div>
+      
+        
+      </div>
+                        <!-- search results headers -->
+      <div class="row">  
+      <div class="col s6">
+        <nav>
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Songs</a>
+            <p id="nav-mobile" class="left hide-on-med-and-down">
+            </p>
+          </div>
+        </nav>
+      </div>
+     
+
+      <div class="col s6">
+        <nav>
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Albums</a>
+            <p id="nav-mobile" class="left hide-on-med-and-down">
+            </p>
+          </div>
+        </nav>
+        </div>
+      </div>
+        
+                      <!-- search results area -->
+    <div class="row">
+    <div class="col s6">
+                             
+      <ul class="collection">
+    <li class="collection-item avatar">
+        <i class="material-icons circle #80cbc4 teal lighten-3">headset</i>
+      <span class="title">Green Day</span>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      <p>Basket Case <br>
+        <li class="collection-item avatar">
+          <i class="material-icons circle #f48fb1 pink lighten-3">headset</i>
+          <span class="title">Title</span>
+          <p>First Line <br>
+             Second Line
+          </p>
+          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+        </li>
+
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle #80deea cyan lighten-3">headset</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle #b39ddb deep-purple lighten-3">headset</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle #f48fb1 pink lighten-3">headset</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+  </ul>
+</div>
+<div class="col s6">
+                    
+    <ul class="collection">
+  <li class="collection-item avatar">
+      <i class="material-icons circle #80cbc4 teal lighten-3">headset</i>
+    <span class="title">Green Day</span>
+    <p>Basket Case <br>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  <li class="collection-item avatar">
+    <i class="material-icons circle #f48fb1 pink lighten-3">headset</i>
+    <span class="title">Title</span>
+    <p>First Line <br>
+       Second Line
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+
+    
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle #80deea cyan lighten-3">headset</i>
+    <span class="title">Title</span>
+    <p>First Line <br>
+       Second Line
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle #b39ddb deep-purple lighten-3">headset</i>
+    <span class="title">Title</span>
+    <p>First Line <br>
+       Second Line
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  <li class="collection-item avatar">
+    <i class="material-icons circle #f48fb1 pink lighten-3">headset</i>
+    <span class="title">Title</span>
+    <p>First Line <br>
+       Second Line
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+</ul>
+</div>
+</div>
+</div>
+      
 
 
     <main>
