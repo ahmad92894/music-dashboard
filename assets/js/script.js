@@ -69,7 +69,6 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 $('#search-results').append($('<br>'));
             }
                 // JC edits
-
     let searchHeaderContainer1=$("<div>");
         searchHeaderContainer1.attr("class", "col s6")
                             
@@ -87,6 +86,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         searchHeaderContainer1.append(searchNav1);
         $("#row").append(searchHeaderContainer1);
 
+
     let searchHeaderContainer2=$("<div>");
         searchHeaderContainer2.attr("class", "col s6")
                     
@@ -103,7 +103,6 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                     
         searchHeaderContainer2.append(searchNav2);
         $("#row").append(searchHeaderContainer2);
-
 
         })
 }
