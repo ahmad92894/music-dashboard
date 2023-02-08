@@ -14,6 +14,14 @@
 
 nav .nav-wrapper {
     font-family: 'Oswald', sans-serif;
+    
 }
-
+.btn {
+    background-color: #25d4c3;
+    margin-bottom: 8vh;
+    
+}
+.row {
+    margin-bottom: 0;
+}
 /* .nav-wrapper */
