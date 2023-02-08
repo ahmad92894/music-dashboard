@@ -148,3 +148,11 @@ $('#search-results').on('click', '.album-link', function(event){
     var albumId = $(event.target).attr('data-album');
     albumSearch(albumId)
 })
+
+$('#go-to-concerts').on('click', function(){
+    window.location.replace('./bandintownindex.html')
+})
+
+$('#go-to-profile').on('click', function(){
+    window.location.replace('./profile.html')
+})
