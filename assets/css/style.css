@@ -31,3 +31,14 @@ nav .nav-wrapper {
     margin-bottom: 0;
 }
 /* .nav-wrapper */
+.container {
+    text-decoration-color: aqua;
+}
+#custom-img {
+    align-self: center;
+}
+#img-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
