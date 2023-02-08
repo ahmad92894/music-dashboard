@@ -42,3 +42,13 @@ nav .nav-wrapper {
     align-items: center;
     justify-content: center;
 }
+
+.album-img{
+    width: -webkit-fill-available;
+}
+
+.album-title{
+    display: flex;
+    white-space: nowrap;
+    overflow: scroll;
+}

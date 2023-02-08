@@ -133,6 +133,8 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
         return response.json();
     })
     .then(function(data){
+        //retrieve data
+        var myAlbumList = [];
         var albumsObj = data.resources.albums;
         for(var album in albumsObj){
             var albumName = albumsObj[album].attributes.name;
@@ -140,16 +142,66 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
             var isSingle = albumsObj[album].attributes.isSingle;
             var id = albumsObj[album].id;
             var undefinedCover = albumsObj[album].attributes.artwork.url;
-            undefinedCover = undefinedCover.replace('{w}', albumsObj[album].attributes.artwork.width);
-            coverArtUrl = undefinedCover.replace('{h}', albumsObj[album].attributes.artwork.height);
+            undefinedCover = undefinedCover.replace('{w}', 225);
+            coverArtUrl = undefinedCover.replace('{h}', 225);
             var newAlbum = new Album(albumName, artist, isSingle, coverArtUrl, id);
-            var newAlbumEl = $('<h3>');
-            newAlbumEl.attr('data-album', newAlbum.id);
-            newAlbumEl.attr('class', 'album-link');
-            newAlbumEl.text(newAlbum.name + " by " + newAlbum.artist.name);
-            $('#search-results').append(newAlbumEl);
-            $('#search-results').append($('<br>'));
+            myAlbumList.push(newAlbum);
         }
+        //DOM manipulation
+        $('#search-results').empty();
+        var headerRow = $('<div>');
+        headerRow.attr('class', 'row');
+        var artistHeader = $('<div>');
+        artistHeader.attr('class', 'col s12');
+        var navBar = $('<nav>');
+        var navWrap = $('<div>');
+        navWrap.attr('class', 'nav-wrapper');
+        var artistName = $('<a>');
+        artistName.attr('class', 'brand-logo center');
+        artistName.attr('href', '#');
+        artistName.text(myAlbumList[0].artist.name);
+        navWrap.append(artistName);
+        navBar.append(navWrap);
+        artistHeader.append(navBar);
+        headerRow.append(artistHeader);
+        $('#search-results').append(headerRow);
+        var resultContainer = $('<div>');
+        resultContainer.attr('class', 'container');
+        resultContainer.css('display: flex; justify-content: space-between');
+        var albumRow = $('<div>');
+        albumRow.attr('class', 'row');
+        for(var i = 0; i < myAlbumList.length; i++){
+            var albumSize = $('<div>');
+            albumSize.attr('class', 'col s12 m5 l3');
+            var albumCard = $('<div>');
+            albumCard.attr('class', 'card');
+            var albumImg = $('<div>');
+            albumImg.attr('class', 'card-img');
+            var imgEl = $('<img>');
+            imgEl.attr('src', myAlbumList[i].coverArtUrl);
+            imgEl.attr('class', 'album-img');
+            var ablumTitle = $('<span>');
+            ablumTitle.attr('class', 'card-title album-title');
+            ablumTitle.text(myAlbumList[i].name);
+            var albumLink = $('<a>');
+            albumLink.attr('class', 'btn-floating halfway-fab waves-effect waves-light red');
+            var icon = $('<i>');
+            icon.attr('class', 'material-icons album-link');
+            icon.attr('data-album', myAlbumList[i].id);
+            icon.text('send');
+            albumLink.append(icon);
+            albumImg.append(imgEl, ablumTitle, albumLink);
+            var cardContent = $('<div>');
+            cardContent.attr('class', 'card-content');
+            var artistEl = $('<p>');
+            artistEl.text(myAlbumList[i].artist.name);
+            cardContent.append(artistEl);
+            albumCard.append(albumImg, cardContent);
+            albumSize.append(albumCard);
+            albumRow.append(albumSize);
+        }
+        resultContainer.append(albumRow);
+        $('#search-results').append(resultContainer);
     })
 }
 
@@ -207,13 +259,10 @@ $('#go-to-concerts').on('click', function(){
 $('#go-to-profile').on('click', function(){
     window.location.replace('./profile.html')
 })
-     
-// let liSearchHistory=$("<li>");
-// liSearchHistory.addClass("collection-item avatar");
-// liSearchHistory.text('something');
-// let starIcon=$("<i>")
-// starIcon.addClass("material-icons circle #80cbc4 teal lighten-3")
-// starIcon.text("headset");
-// // console.log(starIcon);
-// ulSearchHistory.append(liSearchHistory);
-// $("#search-history-container").append(ulSearchHistory)
+
+
+
+// function clearMain(){
+
+// }
+
