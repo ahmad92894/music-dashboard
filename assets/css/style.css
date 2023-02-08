@@ -1,0 +1,6 @@
+.artist-link:hover,
+.album-link:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

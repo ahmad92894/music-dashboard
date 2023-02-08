@@ -38,7 +38,7 @@ const options = {
     }
 };
 
-function genericSearch(searchTerm){
+function genericSearch(searchTerm){ //this fetch call returns a list of top songs and top artists that closely match a given search string
     fetch('https://shazam.p.rapidapi.com/search?term=' + searchTerm + '&locale=en-US&offset=0&limit=10', options)
         .then(function(response) {
             return response.json();
@@ -68,7 +68,7 @@ function genericSearch(searchTerm){
         })
 }
 
-function artistSearch(artistId){
+function artistSearch(artistId){ //this fetch targets a specific artist given the artists ID
     fetch('https://shazam.p.rapidapi.com/artists/get-summary?id=' + artistId + '&l=en-US', options)
     .then(function(response) {
         return response.json();
@@ -84,8 +84,7 @@ function artistSearch(artistId){
             undefinedCover = undefinedCover.replace('{w}', albumsObj[album].attributes.artwork.width);
             coverArtUrl = undefinedCover.replace('{h}', albumsObj[album].attributes.artwork.height);
             var newAlbum = new Album(albumName, artist, isSingle, coverArtUrl, id);
-            //make a new element for every album
-            var newAlbumEl = $('<h2>');
+            var newAlbumEl = $('<h3>');
             newAlbumEl.attr('data-album', newAlbum.id);
             newAlbumEl.attr('class', 'album-link');
             newAlbumEl.text(newAlbum.name + " by " + newAlbum.artist.name);
@@ -95,7 +94,7 @@ function artistSearch(artistId){
     })
 }
 
-function albumSearch(albumId){
+function albumSearch(albumId){ //this fetch targets a specific album given the albums specific ID
     fetch('https://shazam.p.rapidapi.com/albums/get-details?id=' + albumId + '&l=en-US', options)
     .then(function(response){
         return response.json();
