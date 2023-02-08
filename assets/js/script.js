@@ -68,14 +68,41 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 $('#search-results').append(newArtist);
                 $('#search-results').append($('<br>'));
             }
-                                // JC edits
-            let searchHeaderContainer=document.createElement("div");
-            searchHeaderContainer.setAttribute('class', 'row');
-            let columnDiv = document.createElement("div");
-            columnDiv.setAttribute('class', 'col-s6')
-            let searchNav = document.createElement("nav");
-            let navWrapper = document.createElement("div");
-            navWrapper.setAttribute('class', 'nav-wrapper')
+                // JC edits
+
+    let searchHeaderContainer1=$("<div>");
+        searchHeaderContainer1.attr("class", "col s6")
+                            
+    let navWrapper1 = $("<div>");
+        navWrapper1.attr("class", "nav-wrapper")
+                                        
+    let searchBarLink1 = $('<a>');
+        searchBarLink1.attr('class','brand-logo center');
+        searchBarLink1.text('Songs');
+                            
+        navWrapper1.append(searchBarLink1);
+    let searchNav1 = $("<nav>");
+        searchNav1.append(navWrapper1)
+                            
+        searchHeaderContainer1.append(searchNav1);
+        $("#row").append(searchHeaderContainer1);
+
+    let searchHeaderContainer2=$("<div>");
+        searchHeaderContainer2.attr("class", "col s6")
+                    
+    let navWrapper2 = $("<div>");
+        navWrapper2.attr("class", "nav-wrapper")
+                                
+    let searchBarLink2 = $('<a>');
+        searchBarLink2.attr('class','brand-logo center');
+        searchBarLink2.text('Artists');
+                    
+        navWrapper2.append(searchBarLink2);
+    let searchNav2 = $("<nav>");
+        searchNav2.append(navWrapper2)
+                    
+        searchHeaderContainer2.append(searchNav2);
+        $("#row").append(searchHeaderContainer2);
 
 
         })
@@ -135,6 +162,10 @@ $('#submit-btn').on('click', function(event){
     if(usrInput.includes(' ')){
         usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
     }
+
+            let searchHeaderContainer=document.createElement("p");
+            searchHeaderContainer.textContent=("something")
+
     //will get the usr search into propper format, still needs to check that user didnt hit space twice in between words
     genericSearch(usrInput);
 });
@@ -142,6 +173,7 @@ $('#submit-btn').on('click', function(event){
 $('#search-results').on('click', '.artist-link', function(event){
     var artistId = $(event.target).attr('data-artist');
     artistSearch(artistId);
+    
 });
 
 $('#search-results').on('click', '.album-link', function(event){
@@ -156,3 +188,4 @@ $('#go-to-concerts').on('click', function(){
 $('#go-to-profile').on('click', function(){
     window.location.replace('./profile.html')
 })
+     
