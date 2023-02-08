@@ -44,12 +44,15 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             return response.json();
         })
         .then(function(data){
+            console.log(data);
             var topSongs = data.tracks.hits;
             for(var i = 0; i < topSongs.length; i++){
-                var songName = topSongs[i].track.title;
-                var songId = topSongs[i].track.key;
+                var songName = topSongs[i].track.title;             //song title
+                var songId = topSongs[i].track.key;                 //song id
                 var artist = new Artist(topSongs[i].track.subtitle, topSongs[i].track.artists[0].adamid)
+                                        //artist                    //artist id
                 var song = new Song(songName, artist, songId);
+                console.log(song);
                 var newSong = $('<li>');
                 newSong.attr('data-song', song.id);
                 newSong.text(song.name + ' by ' + song.artist.name);
@@ -65,6 +68,16 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 $('#search-results').append(newArtist);
                 $('#search-results').append($('<br>'));
             }
+                                // JC edits
+            let searchHeaderContainer=document.createElement("div");
+            searchHeaderContainer.setAttribute('class', 'row');
+            let columnDiv = document.createElement("div");
+            columnDiv.setAttribute('class', 'col-s6')
+            let searchNav = document.createElement("nav");
+            let navWrapper = document.createElement("div");
+            navWrapper.setAttribute('class', 'nav-wrapper')
+
+
         })
 }
 
