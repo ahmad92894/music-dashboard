@@ -47,8 +47,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         })
         .then(function(data){
             console.log(data);
-         
-
+         console.log(data.tracks.hits[0].track.url);
 
             var topSongs = data.tracks.hits;
            
@@ -125,14 +124,25 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         ulSearchHistory.addClass("collection");
 
     for (let i = 0; i < userSongList.length; i++) {
-     
+    
+    let listenButtonLink=data.tracks.hits[i].track.url;
+    console.log(listenButtonLink)
+    
     let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
         liSearchHistory.text(userSongList[i].name + " " + "-" + " " + userSongList[i].artist.name);
-    let icon=$("<i>");
-        icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
-        icon.text("headset");
-        liSearchHistory.append(icon);
+    // let icon=$("<i>");
+    //     icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
+    //     icon.text("headset");
+    //     liSearchHistory.append(icon);
+    let listenButton=$("<a>");
+        listenButton.attr("href", listenButtonLink);
+        listenButton.attr("target","_blank");
+        listenButton.addClass("waves-effect waves-light circle btn-small #80cbc4 teal lighten-2");
+        
+    //     icon.text("headset");
+    //     liSearchHistory.append(icon);
+        liSearchHistory.append(listenButton);
         ulSearchHistory.append(liSearchHistory);
         divSearchColumns.append(ulSearchHistory);
         $("#row").append(divSearchColumns)
