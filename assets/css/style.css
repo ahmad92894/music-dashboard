@@ -3,7 +3,7 @@
     color: blue;
     text-decoration: underline;
     cursor: pointer;
-}#custom-search-bar {
+}#custom-search-bars {
     margin-bottom: 5px;
 }
 
@@ -74,11 +74,6 @@ nav .nav-wrapper {
 
 #generic-search {
     width: 40vw;
-}
-
-.collection{
-    font-family: oswald;
-    font-size: 3vh;
 }
 
 .collection{
