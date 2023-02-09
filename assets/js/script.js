@@ -65,7 +65,12 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             return response.json();
         })
         .then(function(data){
-            // console.log(data);
+
+
+            console.log(data);
+         console.log(data.tracks.hits[0].track.url);
+
+
             var topSongs = data.tracks.hits;
            
             var userSongList=[];
@@ -92,6 +97,8 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             console.log(data.tracks.hits[0].track.url);
             localStorage.setItem('lastSearchResult', JSON.stringify([userSongList, userArtistList]));
             printTopResults(userSongList, userArtistList);
+
+      
         })
 }
 
