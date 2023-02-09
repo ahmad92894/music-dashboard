@@ -37,23 +37,35 @@ nav .nav-wrapper {
 #custom-img {
     align-self: center;
 }
-#img-container{
+#img-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.album-img{
+.album-img {
     width: -webkit-fill-available;
 }
 
-.album-title{
+.album-title {
     display: flex;
     white-space: nowrap;
     overflow: scroll;
 }
 
-.collection{
+.collection {
     font-family: oswald;
     font-size: 3vh;
 }
+
+img {
+    height: 7.9vh;
+    width: 5vw;
+    float: right;
+    margin-right: 20vw;
+}
+
+/* #listen-icons {
+
+} */
+
