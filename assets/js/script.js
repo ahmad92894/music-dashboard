@@ -4,10 +4,11 @@ function Artist(name, id){
 }
 
 //Artist object that holds the artist name and their shazam ID, we can add more info if needed
-function ArtistWithAvatar(name, id, avatar){
+function ArtistWithAvatar(name, id, avatar, link){
     this.name = name,
     this.id = id;
-    this.avatar = avatar
+    this.avatar = avatar,
+    this.link = link
 }
 //Song object that holds song name, artist object and song id (can add more info if we want)
 function Song(name, artist, id, link){
@@ -68,9 +69,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
 
 
             console.log(data);
-         console.log(data.tracks.hits[0].track.url);
-
-
+         
             var topSongs = data.tracks.hits;
            
             var userSongList=[];
@@ -90,8 +89,11 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             var topArtists = data.artists.hits;
             for(var i = 0; i < topArtists.length; i++){
                 var artistAvatar = topArtists[i].artist.avatar;
-                var artist = new ArtistWithAvatar(topArtists[i].artist.name, topArtists[i].artist.adamid, artistAvatar);
+                let artistButtonLink=data.artists.hits[0].artist.weburl;
+                var artist = new ArtistWithAvatar(topArtists[i].artist.name, topArtists[i].artist.adamid, artistAvatar, artistButtonLink);
                 userArtistList.push(artist)
+
+                
             }
             console.log(data);
             console.log(data.tracks.hits[0].track.url);
@@ -109,6 +111,7 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
         return response.json();
     })
     .then(function(data){
+        console.log(data);
         //retrieve data
         var myAlbumList = [];
         var albumsObj = data.resources.albums;
@@ -296,7 +299,7 @@ function printTopResults(userSongList, userArtistList){
     for (let i = 0; i < userSongList.length; i++) {
         
         let listenButtonLink=userSongList[i].link;
-        console.log(listenButtonLink);
+        // console.log(listenButtonLink);
             
         let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
@@ -313,6 +316,7 @@ function printTopResults(userSongList, userArtistList){
         let listenButton=$("<a>");
         listenButton.attr("href", listenButtonLink);
         listenButton.attr("target","_blank");
+        listenButton.attr("id", "listen-icons");
         listenButton.addClass("waves-effect waves-light circle btn-small #80cbc4 teal lighten-2");
         let listenIcon=$("<i>");
         listenIcon.addClass("material-icons");
@@ -332,21 +336,39 @@ function printTopResults(userSongList, userArtistList){
     ulArtistHistory.addClass("collection");
     
     for (let i = 0; i < userArtistList.length; i++) {
+
+        let listenButtonLink=userArtistList[i].link;
         
+        // let artistButtonLink=data.artists.hits[i].artist.weburl;
+        // console.log(artistButtonLink);
         let artistIcon=userArtistList[i].avatar;
         let artistIconImg=$("<img>");
+        artistIconImg.attr("id", "artist-icon-image")
         artistIconImg.attr("src", artistIcon);
-        artistIconImg.attr("id",);
+        // artistIconImg.attr("id", artistAvatar)
         
         let liArtistHistory=$("<li>");
         liArtistHistory.addClass("collection-item avatar artist-link");
         liArtistHistory.attr('data-artist', userArtistList[i].id);
         liArtistHistory.text(userArtistList[i].name);
-        let icon=$("<i>");
-        icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
-        icon.text("headset");
+        // let icon=$("<i>");
+        // icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
+        // icon.text("headset");
 
-        liArtistHistory.append(icon);
+        let listenButton=$("<a>");
+        listenButton.attr("href", listenButtonLink);
+        listenButton.attr("target","_blank");
+        listenButton.attr("id", "listen-icons");
+        listenButton.addClass("waves-effect waves-light circle btn-small #80cbc4 teal lighten-2");
+        let listenIcon=$("<i>");
+        listenIcon.addClass("material-icons");
+        listenIcon.attr("id", "listen-icons");
+        listenIcon.text("headset");
+        //     icon.text("headset");
+        listenButton.append(listenIcon);
+        liArtistHistory.append(listenButton);
+
+        // liArtistHistory.append(icon);
         liArtistHistory.append(artistIconImg);
         ulArtistHistory.append(liArtistHistory);
         divArtistColumns.append(ulArtistHistory);

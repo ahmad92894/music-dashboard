@@ -89,13 +89,25 @@ nav .nav-wrapper {
     font-size: 3vh;
 }
 
-img {
-    height: 7.9vh;
-    width: 5vw;
-    float: right;
-    margin-right: 20vw;
+#artist-icon-image {
+height: 7.9vh;
+width: 5vw;
+float: right;
+/* margin-right: 20vw; */
+border-radius: 50%;
 
 }
+
+#listen-icons {
+     height: 42px;
+    /* width: 42px; */
+    border-radius: 100%;
+    padding-top: 2.8px;
+    padding-left: 6.1px;
+    
+}
+
+
 
 
 /* Anita's third page starts below */
@@ -302,3 +314,4 @@ root {
       }
     }
     
+
