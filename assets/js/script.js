@@ -139,9 +139,12 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         listenButton.attr("href", listenButtonLink);
         listenButton.attr("target","_blank");
         listenButton.addClass("waves-effect waves-light circle btn-small #80cbc4 teal lighten-2");
-        
+    let listenIcon=$("<i>");
+        listenIcon.addClass("material-icons");
+        listenIcon.attr("id", "listen-icons")
+        listenIcon.text("headset");
     //     icon.text("headset");
-    //     liSearchHistory.append(icon);
+        listenButton.append(listenIcon);
         liSearchHistory.append(listenButton);
         ulSearchHistory.append(liSearchHistory);
         divSearchColumns.append(ulSearchHistory);
