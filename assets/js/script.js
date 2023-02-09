@@ -153,19 +153,80 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
     })
     .then(function(data){
         console.log(data);
+        //store data
+        var albumSongs = [];
         var songArray = data.data[0].relationships.tracks.data;
         for(var i = 0; i < songArray.length; i++){
             var songName = songArray[i].attributes.name;
             var songId = songArray[i].id;
             var artist = new Artist(songArray[i].attributes.artistName, data.data[0].relationships.artists.data[0].id);
             var song = new Song(songName, artist, songId);
-            var newSong = $('<li>');
-            newSong.attr('data-song', song.id);
-            newSong.text(song.name);
-            $('#search-results').append(newSong);
+            albumSongs.push(song);
         }
+        //DOM manipulation
+        $('#search-results').empty();
+        var undefinedCover = data.data[0].attributes.artwork.url;
+        undefinedCover = undefinedCover.replace('{w}', 500);
+        coverArtUrl = undefinedCover.replace('{h}', 500);
+
+        var albumHeader = $('<div>');
+        albumHeader.attr('class', )
+
+        var albumImg = $('<img>');
+        albumImg.attr('class', 'materialboxed');
+        albumImg.attr('src', coverArtUrl);
+       // <img class="materialboxed" width="650" src="images/sample-1.jpg">
+
+
+        var songsContainer = $('<div>');
+        songsContainer.attr('class', 'container');
+        for(var i = 0; i < albumSongs.length; i++){
+            var songRow = $('<div>');
+            songRow.attr('class', 'row');
+            var rowSize = $('<div>');
+            rowSize.attr('class', 'col s12');
+            var infoList = $('<ul>');
+            infoList.attr('class', 'collection')
+            var songInfo = $('<li>');
+            songInfo.attr('class', 'collection-item avatar');
+            var icon = $('<i>');
+            icon.attr('class', 'material-icons circle teal lighten-3')
+            icon.text('headset');
+            var songTitle = $('<span>');
+            songTitle.attr('class', 'title');
+            songTitle.text(albumSongs[i].name);
+            var likeSong = $('<a>');
+            likeSong.attr('href', '#!');
+            likeSong.attr('class', 'secondary-content');
+            var likeIcon = $('<i>');
+            likeIcon.attr('class', 'material-icons');
+            likeIcon.text('grade');
+            likeSong.append(likeIcon);
+            var subTitle = $('<p>');
+            subTitle.text(albumSongs[i].artist.name);
+            var newLine = $('<br>');
+            subTitle.append(newLine);
+            songInfo.append(icon, songTitle, likeSong, subTitle);
+            infoList.append(songInfo);
+            rowSize.append(infoList);
+            songRow.append(rowSize);
+            songsContainer.append(songRow);
+        }
+        $('#search-results').append(songsContainer);
     })
 }
+
+// <!-- <div class="row">
+//         <div class="col s6">
+//           <ul class="collection">
+//             <li class="collection-item avatar">
+//                 <i class="material-icons circle #80cbc4  teal lighten-3">headset</i>
+//                 <span class="title">Green Day</span>
+//                 <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+//                 <p>Basket Case <br>
+//             </li>
+//           </ul>
+//         </div>
 
 $('#submit-btn').on('click', function(event){
     event.preventDefault();
@@ -196,7 +257,6 @@ $('#go-to-profile').on('click', function(){
     window.location.replace('./profile.html')
 })
 
-
-function clearMain(){
-
-}
+$(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
