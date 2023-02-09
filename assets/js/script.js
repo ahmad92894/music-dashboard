@@ -52,7 +52,7 @@ const options = {
 //local storage variables
 var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
 var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
-var usrSongs = JSON.parse(localStorage.getItem('usrSongs')) || [];
+var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 // var lastSeachResults = JSON.parse(localStorage.getItem('lastSearchResult')) || [];
 // var lastArtist = JSON.parse(localStorage.getItem('lastArtist')) || [];
