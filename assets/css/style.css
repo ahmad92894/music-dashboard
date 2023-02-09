@@ -81,11 +81,14 @@ nav .nav-wrapper {
     font-size: 3vh;
 }
 
-img {
+.artist-avatar {
     height: 7.9vh;
     width: 5vw;
     float: right;
     margin-right: 20vw;
-
 }
 
+.ui-menu {
+    width: fit-content;
+
+}
