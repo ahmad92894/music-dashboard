@@ -36,7 +36,7 @@ fetch(URL)
 
 var tableBody = document.getElementById('api-table');
 var fetchButton = document.getElementById('fetch-button');
-var URL=("https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b")
+var Url=("https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b")
 function getApi(){
 // document.addEventListener("click",getApi)
 fetch(URL)
