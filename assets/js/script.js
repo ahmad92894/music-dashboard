@@ -77,9 +77,9 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                                         
     let searchBarLink1 = $('<a>');
         searchBarLink1.attr('class','brand-logo center');
-        searchBarLink1.text('Songs');
-                            
+        searchBarLink1.text('Songs');     
         navWrapper1.append(searchBarLink1);
+
     let searchNav1 = $("<nav>");
         searchNav1.append(navWrapper1)
                             
@@ -109,7 +109,9 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
     let ulSearchHistory=$("<ul>");
         ulSearchHistory.addClass("collection");
 
-    for (let i = 0; i < ulSearchHistory.length; i++) {
+    let songs=[1, 2, 3, 4, 5];
+
+    for (let i = 0; i < songs.length; i++) {
        
     let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
