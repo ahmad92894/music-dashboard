@@ -3,7 +3,7 @@
     color: blue;
     text-decoration: underline;
     cursor: pointer;
-}#custom-search-bars {
+}#custom-search-bar {
     margin-bottom: 5px;
 }
 
@@ -45,10 +45,33 @@ nav .nav-wrapper {
 
 .album-img{
     width: -webkit-fill-available;
+    max-height: 297.5px;
 }
 
 .album-title{
     display: flex;
     white-space: nowrap;
-    overflow: scroll;
+    /* overflow: scroll; */
+    overflow: hidden;
+}
+
+#album-header {
+    display: flex;
+}
+
+#album-header-info {
+    display:flex;
+    flex-direction:column;
+    text-align:left;
+    margin-left:10px
+}
+
+#search-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#generic-search {
+    width: 40vw;
 }

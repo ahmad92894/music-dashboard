@@ -205,18 +205,19 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
             var ablumTitle = $('<span>');
             ablumTitle.attr('class', 'card-title album-title');
             ablumTitle.text(myAlbumList[i].name);
+            albumImg.append(imgEl, ablumTitle);
+            var cardContent = $('<div>');
+            cardContent.attr('class', 'card-content');
+            var artistEl = $('<p>');
+            artistEl.text(myAlbumList[i].artist.name);
             var albumLink = $('<a>');
-            albumLink.attr('class', 'btn-floating halfway-fab waves-effect waves-light red');
+            albumLink.attr('class', 'btn-floating waves-effect waves-light red right');
             var icon = $('<i>');
             icon.attr('class', 'material-icons album-link');
             icon.attr('data-album', myAlbumList[i].id);
             icon.text('send');
             albumLink.append(icon);
-            albumImg.append(imgEl, ablumTitle, albumLink);
-            var cardContent = $('<div>');
-            cardContent.attr('class', 'card-content');
-            var artistEl = $('<p>');
-            artistEl.text(myAlbumList[i].artist.name);
+            artistEl.append(albumLink);
             cardContent.append(artistEl);
             albumCard.append(albumImg, cardContent);
             albumSize.append(albumCard);
@@ -246,18 +247,40 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
         }
         //DOM manipulation
         $('#search-results').empty();
+        var backToAlbums = $('<button>');
+        backToAlbums.attr('class', 'btn waves-effect waves-light artist-link');
+        backToAlbums.attr('type', 'submit');
+        backToAlbums.attr('name', 'action');
+        backToAlbums.attr('data-artist', data.data[0].relationships.artists.data[0].id)
+        backToAlbums.text('Back To Albums');
+        var btnIcon = $('<i>');
+        btnIcon.attr('class', 'material-icons left');
+        btnIcon.text('arrow_back');
+        btnIcon.attr('data-artist', data.data[0].relationships.artists.data[0].id)
+        backToAlbums.append(btnIcon);
+        $('#search-results').append(backToAlbums);
+
         var undefinedCover = data.data[0].attributes.artwork.url;
         undefinedCover = undefinedCover.replace('{w}', 500);
         coverArtUrl = undefinedCover.replace('{h}', 500);
 
         var albumHeader = $('<div>');
-        albumHeader.attr('class', )
+        albumHeader.attr('class', 'container');
+        albumHeader.attr('id', 'album-header');
 
         var albumImg = $('<img>');
-        albumImg.attr('class', 'materialboxed');
         albumImg.attr('src', coverArtUrl);
-       // <img class="materialboxed" width="650" src="images/sample-1.jpg">
+        albumHeader.append(albumImg);
 
+        var albumHeaderInfo = $('<div>');
+        albumHeaderInfo.attr('id', 'album-header-info')
+        var albumName = $('<h2>');
+        albumName.text(data.data[0].attributes.name);
+        var albumArtist = $('<h4>');
+        albumArtist.text(data.data[0].attributes.artistName);
+        albumHeaderInfo.append(albumName, albumArtist);
+        albumHeader.append(albumImg, albumHeaderInfo);
+        $('#search-results').append(albumHeader);
 
         var songsContainer = $('<div>');
         songsContainer.attr('class', 'container');
@@ -281,7 +304,7 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
             likeSong.attr('class', 'secondary-content');
             var likeIcon = $('<i>');
             likeIcon.attr('class', 'material-icons');
-            likeIcon.text('grade');
+            likeIcon.text('add_circle_outline');
             likeSong.append(likeIcon);
             var subTitle = $('<p>');
             subTitle.text(albumSongs[i].artist.name);
@@ -297,21 +320,9 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
     })
 }
 
-// <!-- <div class="row">
-//         <div class="col s6">
-//           <ul class="collection">
-//             <li class="collection-item avatar">
-//                 <i class="material-icons circle #80cbc4  teal lighten-3">headset</i>
-//                 <span class="title">Green Day</span>
-//                 <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-//                 <p>Basket Case <br>
-//             </li>
-//           </ul>
-//         </div>
-
 $('#submit-btn').on('click', function(event){
     event.preventDefault();
-    var usrInput = $('#generic-serch').val();
+    var usrInput = $('#generic-search').val();
     usrInput = usrInput.trim();
     if(usrInput.includes(' ')){
         usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
@@ -343,6 +354,7 @@ $('#go-to-profile').on('click', function(){
     window.location.replace('./profile.html')
 })
 
-$(document).ready(function(){
-    $('.materialboxed').materialbox();
-  });
+$('#search-results').on('click', '#backToAlbums', function(event){
+    var albumId = $(event.target).attr('data-album');
+    albumSearch(albumId)
+})
