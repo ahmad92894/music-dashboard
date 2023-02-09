@@ -3,6 +3,8 @@ function Artist(name, id){
     this.name = name,
     this.id = id;
 }
+
+let icon=$("<i>")
 //Song object that holds song name, artist object and song id (can add more info if we want)
 function Song(name, artist, id){
     this.name = name,
@@ -47,24 +49,27 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             console.log(data);
             var topSongs = data.tracks.hits;
            
+            var userSongList=[];
+            console.log(userSongList)
+
             for(var i = 0; i < topSongs.length; i++){
                 var songName = topSongs[i].track.title;             //song title
                 var songId = topSongs[i].track.key;                 //song id
                 var artist = new Artist(topSongs[i].track.subtitle, topSongs[i].track.artists[0].adamid)
                                         //artist                    //artist id
                 var song = new Song(songName, artist, songId);
-                console.log(song);
+                userSongList.push(song);
                 var newSong = $('<li>');
                 newSong.attr('data-song', song.id);
                 newSong.text(song.name + ' by ' + song.artist.name);
                 $('#search-results').append(newSong);
             }
-            var myArtistList=[];
+            var userArtistList=[];
 
             var topArtists = data.artists.hits;
             for(var i = 0; i < topArtists.length; i++){
                 var artist = new Artist(topArtists[i].artist.name, topArtists[i].artist.adamid);
-                myArtistList.push(artist)
+                userArtistList.push(artist)
 
                 var newArtist = $('<h4>');
                 newArtist.attr('data-artist', artist.id);
@@ -115,18 +120,21 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         divSearchColumns.addClass("col s6");
     let ulSearchHistory=$("<ul>");
         ulSearchHistory.addClass("collection");
-       
-    // let songs=[1, 2, 3, 4, 5];
-    // let artists=[6, 7, 8, 9, 10];
 
-    for (let i = 0; i < songs.length; i++) {
+    for (let i = 0; i < userSongList.length; i++) {
      
     let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
-        liSearchHistory.text('something');
+        liSearchHistory.text(userSongList[i].name + " " + "-" + " " + userSongList[i].artist.name);
+    let icon=$("<i>");
+        icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
+        icon.text("headset");
+        liSearchHistory.append(icon);
         ulSearchHistory.append(liSearchHistory);
         divSearchColumns.append(ulSearchHistory);
         $("#row").append(divSearchColumns)
+
+        console.log(userSongList[i]);
 
     };
     let divArtistColumns=$("<div>");
@@ -134,11 +142,15 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
     let ulArtistHistory=$("<ul>");
         ulArtistHistory.addClass("collection");
 
-    for (let i = 0; i < myArtistList.length; i++) {
+    for (let i = 0; i < userArtistList.length; i++) {
     
     let liArtistHistory=$("<li>");
         liArtistHistory.addClass("collection-item avatar");
-        liArtistHistory.text(myArtistList[i].name);
+        liArtistHistory.text(userArtistList[i].name);
+    let icon=$("<i>");
+        icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
+        icon.text("headset");
+        liArtistHistory.append(icon);
         ulArtistHistory.append(liArtistHistory);
         divArtistColumns.append(ulArtistHistory);
         $("#row").append(divArtistColumns);

@@ -52,3 +52,8 @@ nav .nav-wrapper {
     white-space: nowrap;
     overflow: scroll;
 }
+
+.collection{
+    font-family: oswald;
+    font-size: 3vh;
+}
