@@ -44,20 +44,28 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             return response.json();
         })
         .then(function(data){
+            console.log(data);
             var topSongs = data.tracks.hits;
+           
             for(var i = 0; i < topSongs.length; i++){
-                var songName = topSongs[i].track.title;
-                var songId = topSongs[i].track.key;
+                var songName = topSongs[i].track.title;             //song title
+                var songId = topSongs[i].track.key;                 //song id
                 var artist = new Artist(topSongs[i].track.subtitle, topSongs[i].track.artists[0].adamid)
+                                        //artist                    //artist id
                 var song = new Song(songName, artist, songId);
+                console.log(song);
                 var newSong = $('<li>');
                 newSong.attr('data-song', song.id);
                 newSong.text(song.name + ' by ' + song.artist.name);
                 $('#search-results').append(newSong);
             }
+            var myArtistList=[];
+
             var topArtists = data.artists.hits;
             for(var i = 0; i < topArtists.length; i++){
                 var artist = new Artist(topArtists[i].artist.name, topArtists[i].artist.adamid);
+                myArtistList.push(artist)
+
                 var newArtist = $('<h4>');
                 newArtist.attr('data-artist', artist.id);
                 newArtist.attr('class', 'artist-link');
@@ -65,6 +73,79 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 $('#search-results').append(newArtist);
                 $('#search-results').append($('<br>'));
             }
+                // JC edits
+    let searchHeaderContainer1=$("<div>");
+        searchHeaderContainer1.attr("class", "col s6")
+                            
+    let navWrapper1 = $("<div>");
+        navWrapper1.attr("class", "nav-wrapper")
+                                        
+    let searchBarLink1 = $('<a>');
+        searchBarLink1.attr('class','brand-logo center');
+        searchBarLink1.text('Songs');     
+        navWrapper1.append(searchBarLink1);
+
+    let searchNav1 = $("<nav>");
+        searchNav1.append(navWrapper1)
+                            
+        searchHeaderContainer1.append(searchNav1);
+        $("#row").append(searchHeaderContainer1);
+
+
+    let searchHeaderContainer2=$("<div>");
+        searchHeaderContainer2.attr("class", "col s6")
+                    
+    let navWrapper2 = $("<div>");
+        navWrapper2.attr("class", "nav-wrapper")
+                                
+    let searchBarLink2 = $('<a>');
+        searchBarLink2.attr('class','brand-logo center');
+        searchBarLink2.text('Artists');
+                    
+        navWrapper2.append(searchBarLink2);
+    let searchNav2 = $("<nav>");
+        searchNav2.append(navWrapper2)
+                    
+        searchHeaderContainer2.append(searchNav2);
+        $("#row").append(searchHeaderContainer2);
+
+                //search history list stems
+    
+    let divSearchColumns=$("<div>");
+        divSearchColumns.addClass("col s6");
+    let ulSearchHistory=$("<ul>");
+        ulSearchHistory.addClass("collection");
+       
+    // let songs=[1, 2, 3, 4, 5];
+    // let artists=[6, 7, 8, 9, 10];
+
+    for (let i = 0; i < songs.length; i++) {
+     
+    let liSearchHistory=$("<li>");
+        liSearchHistory.addClass("collection-item avatar");
+        liSearchHistory.text('something');
+        ulSearchHistory.append(liSearchHistory);
+        divSearchColumns.append(ulSearchHistory);
+        $("#row").append(divSearchColumns)
+
+    };
+    let divArtistColumns=$("<div>");
+        divArtistColumns.addClass("col s6");
+    let ulArtistHistory=$("<ul>");
+        ulArtistHistory.addClass("collection");
+
+    for (let i = 0; i < myArtistList.length; i++) {
+    
+    let liArtistHistory=$("<li>");
+        liArtistHistory.addClass("collection-item avatar");
+        liArtistHistory.text(myArtistList[i].name);
+        ulArtistHistory.append(liArtistHistory);
+        divArtistColumns.append(ulArtistHistory);
+        $("#row").append(divArtistColumns);
+    
+        };
+  
+
         })
 }
 
@@ -235,6 +316,10 @@ $('#submit-btn').on('click', function(event){
     if(usrInput.includes(' ')){
         usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
     }
+
+            let searchHeaderContainer=document.createElement("p");
+            searchHeaderContainer.textContent=("something")
+
     //will get the usr search into propper format, still needs to check that user didnt hit space twice in between words
     genericSearch(usrInput);
 });
@@ -242,6 +327,7 @@ $('#submit-btn').on('click', function(event){
 $('#search-results').on('click', '.artist-link', function(event){
     var artistId = $(event.target).attr('data-artist');
     artistSearch(artistId);
+    
 });
 
 $('#search-results').on('click', '.album-link', function(event){
