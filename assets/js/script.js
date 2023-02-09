@@ -47,6 +47,9 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         })
         .then(function(data){
             console.log(data);
+         
+
+
             var topSongs = data.tracks.hits;
            
             var userSongList=[];
@@ -134,8 +137,6 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         divSearchColumns.append(ulSearchHistory);
         $("#row").append(divSearchColumns)
 
-        console.log(userSongList[i]);
-
     };
     let divArtistColumns=$("<div>");
         divArtistColumns.addClass("col s6");
@@ -144,16 +145,26 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
 
     for (let i = 0; i < userArtistList.length; i++) {
     
+    let artistIcon=data.artists.hits[i].artist.avatar;
+    let artistIconImg=$("<img>");
+        artistIconImg.attr("src", artistIcon);
+        artistIconImg.attr("id",)
+        
+
     let liArtistHistory=$("<li>");
         liArtistHistory.addClass("collection-item avatar");
         liArtistHistory.text(userArtistList[i].name);
     let icon=$("<i>");
         icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
         icon.text("headset");
+
         liArtistHistory.append(icon);
+        liArtistHistory.append(artistIconImg);
         ulArtistHistory.append(liArtistHistory);
         divArtistColumns.append(ulArtistHistory);
         $("#row").append(divArtistColumns);
+
+        
     
         };
   
