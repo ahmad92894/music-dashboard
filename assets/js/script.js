@@ -162,7 +162,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
     let artistIcon=data.artists.hits[i].artist.avatar;
     let artistIconImg=$("<img>");
         artistIconImg.attr("src", artistIcon);
-        artistIconImg.attr("id",)
+        // artistIconImg.attr("id", artistAvatar)
         
 
     let liArtistHistory=$("<li>");
