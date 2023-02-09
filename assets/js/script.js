@@ -46,6 +46,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         .then(function(data){
             console.log(data);
             var topSongs = data.tracks.hits;
+           
             for(var i = 0; i < topSongs.length; i++){
                 var songName = topSongs[i].track.title;             //song title
                 var songId = topSongs[i].track.key;                 //song id
@@ -58,9 +59,13 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 newSong.text(song.name + ' by ' + song.artist.name);
                 $('#search-results').append(newSong);
             }
+            var myArtistList=[];
+
             var topArtists = data.artists.hits;
             for(var i = 0; i < topArtists.length; i++){
                 var artist = new Artist(topArtists[i].artist.name, topArtists[i].artist.adamid);
+                myArtistList.push(artist)
+
                 var newArtist = $('<h4>');
                 newArtist.attr('data-artist', artist.id);
                 newArtist.attr('class', 'artist-link');
@@ -104,26 +109,41 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
         searchHeaderContainer2.append(searchNav2);
         $("#row").append(searchHeaderContainer2);
 
-                //search history list istems
-
+                //search history list stems
+    
+    let divSearchColumns=$("<div>");
+        divSearchColumns.addClass("col s6");
     let ulSearchHistory=$("<ul>");
         ulSearchHistory.addClass("collection");
-
-    let songs=[1, 2, 3, 4, 5];
+       
+    // let songs=[1, 2, 3, 4, 5];
+    // let artists=[6, 7, 8, 9, 10];
 
     for (let i = 0; i < songs.length; i++) {
-       
+     
     let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
         liSearchHistory.text('something');
-    // let starIcon=$("<i>")
-        // starIcon.addClass("material-icons circle #80cbc4 teal lighten-3")
-        // starIcon.text(headset);
-        // starIcon.append(liSearchHistory);
         ulSearchHistory.append(liSearchHistory);
-        $("#search-history-container").append(ulSearchHistory)
+        divSearchColumns.append(ulSearchHistory);
+        $("#row").append(divSearchColumns)
 
     };
+    let divArtistColumns=$("<div>");
+        divArtistColumns.addClass("col s6");
+    let ulArtistHistory=$("<ul>");
+        ulArtistHistory.addClass("collection");
+
+    for (let i = 0; i < myArtistList.length; i++) {
+    
+    let liArtistHistory=$("<li>");
+        liArtistHistory.addClass("collection-item avatar");
+        liArtistHistory.text(myArtistList[i].name);
+        ulArtistHistory.append(liArtistHistory);
+        divArtistColumns.append(ulArtistHistory);
+        $("#row").append(divArtistColumns);
+    
+        };
   
 
         })
