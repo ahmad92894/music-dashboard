@@ -65,7 +65,12 @@ img {
     margin-right: 20vw;
 }
 
-/* #listen-icons {
-
-} */
+#listen-icons {
+    height: 6vh;
+    width: 4.1vw;
+    border-radius: 100%;
+    padding-top: .7vh;
+    padding-left: 1.3vw;
+    
+}
 
