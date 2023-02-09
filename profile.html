@@ -1,93 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Music Profile</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <title>Music profile</title>
+  
 </head>
+
 <body>
-    <div>Your Favorite Songs</div>
-    <button id="go-to-search" class="left">Back To Search</button>
-    <ul class="blue lighten-4">
-        <li>
-            <a ref="/">Song a</a>
-        </li>
-        <li>
-            <a ref="/"> Song b</a>
-        </li>
-        <li>
-            <a ref="/" >Song c</a>
-        </li>
-        <li>
-            <a ref="/"> Song d</a>
-        </li>
-    </ul>
-   
-    <div>Your Favorite Artists</div>
+    <div class="container">
+
+
+  <header>
     
-    <ul class="blue lighten-4">
-        <li>
-            <a ref="/">Song a</a>
-        </li>
-        <li>
-            <a ref="/"> Song b</a>
-        </li>
-        <li>
-            <a ref="/" >Song c</a>
-        </li>
-        <li>
-            <a ref="/"> Song d</a>
-        </li>
-    </ul>
+    <h1 class="page-title">
+      Music profile
+    </h1>
+    <p>
+      Here are some of your favorites:
+    </p>
+  </header>
 
-    <div>Your Playlist</div>
+  <main>
+    <section class="row justify-center">
+      <div class="card-column">
+        <figure class="card code-card">
+          <!-- <h2 class="card-header">Your Favorite Artists</h2> -->
+          <div class="card-body">
+            <h2>Your Favorite Artists</h2>
+            <p>Here are some of your favorite artists you listen to:</p>
+          </div>
+          <!-- with the <pre> element, it counts all spaces literally, so proper code indentation cannot be applied in this case -->
+          <pre class="code-block"><code>
+  Artist 1
+  Artist 2
+  Artist 3
+</code></pre>
+        </figure>
+      </div>
+      <div class="card-column">
+        <figure class="card code-card">
+            <!-- <h2 class="card-header">Your playlist</h2> -->
+            <div class="card-body">
+              <h2> Your playlist</h2>
+              <p>Here's your playlist of songs:</p>
+            </div>
+            <pre class="code-block"><code> 
+        Song 1
+        Song 2
+        Song 3
+
+</code></pre>
+          </figure>
+        </div>
+  
+        <div class="card-column">
+          <figure class="card code-card">
+            <!-- <h2 class="card-header">Your favorite songs</h2> -->
+            <div class="card-body">
+                <h2> Your Favorite Songs</h2>
+              <p>Here's a list of your favorite songs you have listened to:</p>
+            </div>
+            <pre class="code-block"><code>
+        Song 1 
+        Song 2
+        Song 3
+  </code></pre>
+          </figure>
+        
     
-    <ul class="blue lighten-4">
-        <li>
-            <a ref="/">Song a</a>
-        </li>
-        <li>
-            <a ref="/"> Song b</a>
-        </li>
-        <li>
-            <a ref="/" >Song c</a>
-        </li>
-        <li>
-            <a ref="/"> Song d</a>
-        </li>
-    </ul>
-
-    <div>Your Favorite Albums</div>
-
-    <ul class="blue lighten-4">
-        <li>
-            <a ref="/">Song a</a>
-        </li>
-        <li>
-            <a ref="/"> Song b</a>
-        </li>
-        <li>
-            <a ref="/" >Song c</a>
-        </li>
-        <li>
-            <a ref="/"> Song d</a>
-        </li>
-    </ul>
-
-
-
-
-
-
-
-
-
-
+  </code></pre>
+          </figure>
+        </div>
+        <div class="card-column">
+          <figure class="card code-card">
+            <!-- <h2 class="card-header">Your Favorite Album</h2> -->
+            <div class="card-body">
+              <h2>Your Favorite Album</h2>
+              <p>Here's a list of your favorite albums you listen to: </p>
+            </div>
+            <pre class="code-block"><code>
+        Album 1
+        Album 2
+        Album 3
+  </code></pre>
+          </figure>
+        </div>
+      </section>
+    </main>
+  
+    <footer>
+      <h3>This entire website was made by Anita Awele Lan, Managlia Daniel, Canavan Justin and Bustami Ahmad. <span role="img" aria-label="heart">❤️</span> and CSS</h3>
+    
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="./assets/js/profilescript.js"></script>
-</body>
-</html>
+
+    </div>
+  
+  </body>
+  
+  </html>
