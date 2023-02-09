@@ -1,13 +1,20 @@
-//Artist object that holds the artist name and their shazam ID, we can add more info if needed
 function Artist(name, id){
     this.name = name,
+    this.id = id
+}
+
+//Artist object that holds the artist name and their shazam ID, we can add more info if needed
+function ArtistWithAvatar(name, id, avatar){
+    this.name = name,
     this.id = id;
+    this.avatar = avatar
 }
 //Song object that holds song name, artist object and song id (can add more info if we want)
-function Song(name, artist, id){
+function Song(name, artist, id, link){
     this.name = name,
     this.artist = artist,
     this.id = id;
+    this.link = link;
 }
 //Album object that holds album name, artist, a url to the coverart, and album id
 //coverart url needs desired dimensions as parameter otherwise it will not work
@@ -34,16 +41,16 @@ function User(playlists, albums, songs) {
 }
 
 const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': '301970d4b6msh2fa749238695abep1923b8jsnc41e808e6e6f',
-        'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-    }
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': 'b4ec89dc57mshfd788e7303adbe9p130446jsn75e937b16068',
+		'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+	}
 };
 
 //local storage variables
 var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
-//var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
+var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
 var usrSongs = JSON.parse(localStorage.getItem('usrSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 // var lastSeachResults = JSON.parse(localStorage.getItem('lastSearchResult')) || [];
@@ -58,7 +65,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             return response.json();
         })
         .then(function(data){
-            //console.log(data);
+            // console.log(data);
             var topSongs = data.tracks.hits;
            
             var userSongList=[];
@@ -67,18 +74,22 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             for(var i = 0; i < topSongs.length; i++){
                 var songName = topSongs[i].track.title;             //song title
                 var songId = topSongs[i].track.key;                 //song id
+                var songLink = topSongs[i].track.url;
                 var artist = new Artist(topSongs[i].track.subtitle, topSongs[i].track.artists[0].adamid)
                                         //artist                    //artist id
-                var song = new Song(songName, artist, songId);
+                var song = new Song(songName, artist, songId, songLink);
                 userSongList.push(song);
             }
             var userArtistList=[];
 
             var topArtists = data.artists.hits;
             for(var i = 0; i < topArtists.length; i++){
-                var artist = new Artist(topArtists[i].artist.name, topArtists[i].artist.adamid);
+                var artistAvatar = topArtists[i].artist.avatar;
+                var artist = new ArtistWithAvatar(topArtists[i].artist.name, topArtists[i].artist.adamid, artistAvatar);
                 userArtistList.push(artist)
             }
+            console.log(data);
+            console.log(data.tracks.hits[0].track.url);
             localStorage.setItem('lastSearchResult', JSON.stringify([userSongList, userArtistList]));
             printTopResults(userSongList, userArtistList);
         })
@@ -119,11 +130,13 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
         //store data
         var albumSongs = [];
         var songArray = data.data[0].relationships.tracks.data;
-        var albumArtist = new Artist(songArray[0].attributes.artistName, data.data[0].relationships.artists.data[0].id);
+        var artistAvatar = songArray[0].attributes.avatar;
+        var albumArtist = new Artist(songArray[0].attributes.artistName, data.data[0].relationships.artists.data[0].id, artistAvatar);
         for(var i = 0; i < songArray.length; i++){
             var songName = songArray[i].attributes.name;
             var songId = songArray[i].id;
-            var song = new Song(songName, albumArtist, songId);
+            var songLink = songArray[i].url;
+            var song = new Song(songName, albumArtist, songId, songLink);
             albumSongs.push(song);
         }
         var undefinedCover = data.data[0].attributes.artwork.url;
@@ -211,6 +224,18 @@ $("#generic-search").autocomplete({
     source: searchHistory
 });
 
+// $('#search-results').on('click', '.likeSong', function(event){
+
+// });
+
+// $('#search-results').on('click', '.addSongToPlaylist', function(event){
+
+// });
+
+// $('#search-results').on('click', '.likeAlbum', function(event){
+    
+// });
+
 
 function printTopResults(userSongList, userArtistList){
     $('#search-results').empty();
@@ -221,7 +246,7 @@ function printTopResults(userSongList, userArtistList){
             // JC edits
     let searchHeaderContainer1=$("<div>");
     searchHeaderContainer1.attr("class", "col s6")
-                            
+                                
     let navWrapper1 = $("<div>");
     navWrapper1.attr("class", "nav-wrapper")
                                         
@@ -239,69 +264,89 @@ function printTopResults(userSongList, userArtistList){
 
     let searchHeaderContainer2=$("<div>");
     searchHeaderContainer2.attr("class", "col s6")
-                    
+                        
     let navWrapper2 = $("<div>");
     navWrapper2.attr("class", "nav-wrapper")
                                 
     let searchBarLink2 = $('<a>');
     searchBarLink2.attr('class','brand-logo center');
     searchBarLink2.text('Artists');
-                
+                    
     navWrapper2.append(searchBarLink2);
     let searchNav2 = $("<nav>");
-    searchNav2.append(navWrapper2)
-                
+    searchNav2.append(navWrapper2);
+                    
     searchHeaderContainer2.append(searchNav2);
     $("#row").append(searchHeaderContainer2);
 
-        //search history list stems
-    
+                    //search history list stems
+        
     let divSearchColumns=$("<div>");
     divSearchColumns.addClass("col s6");
     let ulSearchHistory=$("<ul>");
     ulSearchHistory.addClass("collection");
-
+    
     for (let i = 0; i < userSongList.length; i++) {
-     
+        
+        let listenButtonLink=userSongList[i].link;
+        console.log(listenButtonLink);
+            
         let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
-        //DM addition
-        var artist = $('<span>');
-        artist.attr('class', 'artist-link');
-        artist.attr('data-artist', userSongList[i].artist.id);
-        artist.text(userSongList[i].artist.name);
         liSearchHistory.text(userSongList[i].name + " " + "-" + " ");
-        liSearchHistory.append(artist);
-        let icon=$("<i>");
-        icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
-        icon.text("headset");
-        liSearchHistory.append(icon);
+        var artistLink = $('<span>');
+        artistLink.attr('class', 'artist-link');
+        artistLink.attr('data-artist', userSongList[i].artist.id);
+        artistLink.text(userSongList[i].artist.name);
+        liSearchHistory.append(artistLink);
+        //     let icon=$("<i>");
+        //     icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
+        //     icon.text("headset");
+        //     liSearchHistory.append(icon);
+        let listenButton=$("<a>");
+        listenButton.attr("href", listenButtonLink);
+        listenButton.attr("target","_blank");
+        listenButton.addClass("waves-effect waves-light circle btn-small #80cbc4 teal lighten-2");
+        let listenIcon=$("<i>");
+        listenIcon.addClass("material-icons");
+        listenIcon.attr("id", "listen-icons");
+        listenIcon.text("headset");
+        //     icon.text("headset");
+        listenButton.append(listenIcon);
+        liSearchHistory.append(listenButton);
         ulSearchHistory.append(liSearchHistory);
         divSearchColumns.append(ulSearchHistory);
         $("#row").append(divSearchColumns)
-
-        //console.log(userSongList[i]);
-    };
-
+    }
+        
     let divArtistColumns=$("<div>");
     divArtistColumns.addClass("col s6");
     let ulArtistHistory=$("<ul>");
     ulArtistHistory.addClass("collection");
-
-    for (let i = 0; i < userArtistList.length; i++) {
     
+    for (let i = 0; i < userArtistList.length; i++) {
+        
+        let artistIcon=userArtistList[i].avatar;
+        let artistIconImg=$("<img>");
+        artistIconImg.attr("src", artistIcon);
+        artistIconImg.attr("id",);
+        
         let liArtistHistory=$("<li>");
         liArtistHistory.addClass("collection-item avatar artist-link");
-        liArtistHistory.attr('data-artist', userArtistList[i].id)
+        liArtistHistory.attr('data-artist', userArtistList[i].id);
         liArtistHistory.text(userArtistList[i].name);
         let icon=$("<i>");
         icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
         icon.text("headset");
+
         liArtistHistory.append(icon);
+        liArtistHistory.append(artistIconImg);
         ulArtistHistory.append(liArtistHistory);
         divArtistColumns.append(ulArtistHistory);
         $("#row").append(divArtistColumns);
-    
+
+        
+        
     }
 }
 
@@ -424,13 +469,26 @@ function printAlbumSongs(albumWithSongs){
         var songTitle = $('<span>');
         songTitle.attr('class', 'title');
         songTitle.text(albumWithSongs.songs[i].name);
+        
         var likeSong = $('<a>');
-        likeSong.attr('href', '#!');
-        likeSong.attr('class', 'secondary-content');
-        var likeIcon = $('<i>');
-        likeIcon.attr('class', 'material-icons');
-        likeIcon.text('add_circle_outline');
-        likeSong.append(likeIcon);
+        likeSong.attr('class', 'dropdown-trigger btn right');
+        likeSong.attr('data-song', albumWithSongs.songs[i].id);
+        likeSong.text('...');
+        
+        
+        var dropdownList = $('<ul>');
+        dropdownList.attr('id', albumWithSongs.songs[i].id);
+        dropdownList.attr('class', 'dropdown-content');
+        var listElOne = $('<li>');
+        var likeBtn = $('<a>');
+        likeBtn.attr('data-song', albumWithSongs.songs[i].id);
+        likeBtn.text('Like Song');
+        listElOne.append(likeBtn);
+        dropdownList.append(listElOne);
+
+
+
+
         var subTitle = $('<p>');
         subTitle.text(albumWithSongs.songs[i].artist.name);
         var newLine = $('<br>');
@@ -443,3 +501,25 @@ function printAlbumSongs(albumWithSongs){
     }
     $('#search-results').append(songsContainer);
 }
+
+
+// <!-- Dropdown Trigger -->
+//   <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+
+//   <!-- Dropdown Structure -->
+//   <ul id='dropdown1' class='dropdown-content'>
+//     <li><a href="#!">one</a></li>
+//     <li><a href="#!">two</a></li>
+//     <li class="divider" tabindex="-1"></li>
+//     <li><a href="#!">three</a></li>
+//     <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+//     <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+//   </ul>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = $('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems, options);
+});
+
+M.AutoInit();
