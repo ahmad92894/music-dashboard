@@ -59,10 +59,6 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                                         //artist                    //artist id
                 var song = new Song(songName, artist, songId);
                 userSongList.push(song);
-                var newSong = $('<li>');
-                newSong.attr('data-song', song.id);
-                newSong.text(song.name + ' by ' + song.artist.name);
-                $('#search-results').append(newSong);
             }
             var userArtistList=[];
 
@@ -70,15 +66,13 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             for(var i = 0; i < topArtists.length; i++){
                 var artist = new Artist(topArtists[i].artist.name, topArtists[i].artist.adamid);
                 userArtistList.push(artist)
-
-                var newArtist = $('<h4>');
-                newArtist.attr('data-artist', artist.id);
-                newArtist.attr('class', 'artist-link');
-                newArtist.text(artist.name);
-                $('#search-results').append(newArtist);
-                $('#search-results').append($('<br>'));
             }
-                // JC edits
+        $('#search-results').empty();
+        var topResults = $('<div>');
+        topResults.attr('class', 'row');
+        topResults.attr('id', 'row');
+        $('#search-results').append(topResults);
+            // JC edits
     let searchHeaderContainer1=$("<div>");
         searchHeaderContainer1.attr("class", "col s6")
                             
@@ -125,7 +119,13 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
      
     let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
-        liSearchHistory.text(userSongList[i].name + " " + "-" + " " + userSongList[i].artist.name);
+        //DM addition
+        var artist = $('<span>');
+        artist.attr('class', 'artist-link');
+        artist.attr('data-artist', userSongList[i].artist.id);
+        artist.text(userSongList[i].artist.name);
+        liSearchHistory.text(userSongList[i].name + " " + "-" + " ");
+        liSearchHistory.append(artist);
     let icon=$("<i>");
         icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
         icon.text("headset");
@@ -145,7 +145,8 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
     for (let i = 0; i < userArtistList.length; i++) {
     
     let liArtistHistory=$("<li>");
-        liArtistHistory.addClass("collection-item avatar");
+        liArtistHistory.addClass("collection-item avatar artist-link");
+        liArtistHistory.attr('data-artist', userArtistList[i].id)
         liArtistHistory.text(userArtistList[i].name);
     let icon=$("<i>");
         icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
