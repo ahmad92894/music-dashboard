@@ -1,7 +1,8 @@
 function Artist(name, id){
     this.name = name,
     this.id = id
-}
+} 
+//blueprint for artist
 
 //Artist object that holds the artist name and their shazam ID, we can add more info if needed
 function ArtistWithAvatar(name, id, avatar, link){
