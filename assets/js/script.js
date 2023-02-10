@@ -51,7 +51,7 @@ const options = {
 
 //local storage variables
 var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
-var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
+var usrAlbums = JSON.parse(localStorage.getItem('userAlbums')) || [];
 var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 var songOptionToggle = false;
@@ -273,6 +273,7 @@ $('#search-results').on('click', '.songOptions', function(e){
                         usrSongs.push(likedSong);
                     }
                     localStorage.setItem('userSongs', JSON.stringify(usrSongs));
+                    if(e.parent())
                     printAlbumSongs(JSON.parse(localStorage.getItem('lastAlbum')));
                 }
             }
@@ -283,33 +284,21 @@ $('#search-results').on('click', '.songOptions', function(e){
     }
 });
 
-// $('#search-results').on('click', '.likeSong', function(event){
-//     var songId = $(event.target).attr('data-song');
-//     console.log(songId);
-//     var found = false;
-//     var likedSong
-//     var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
-//     var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
-//     for(var i = 0; i < songList1.length; i++){
-//         if(songId === songList1[i].id){
-//             found = true;
-//             likedSong = songList1[i];
-//         }
-//     }
-//     if(!found){
-//         for(var i = 0; i < songList2.length; i++){
-//             if(songId === songList2[i].id){
-//                 found = true;
-//                 likedSong = songList2[i];
-//             }
-//         }
-//     }
-//     usrSongs.push(likedSong);
-//     localStorage.setItem('userSongs', JSON.stringify(usrSongs));
-// });
-
-$('#search-results').on('click', '.addSongToPlaylist', function(event){
-
+$('#search-results').on('click', '#likeAlbum', function(event){
+    var album = JSON.parse(localStorage.getItem('lastAlbum'));
+    var albumId = album.album.id;
+    var found = false;
+    for(var i = 0; i < usrAlbums.length; i++){
+        if(usrAlbums[i].album.id === albumId){
+            found = true;
+            usrAlbums.splice(i, 1);
+        }
+    }
+    if(!found){
+        usrAlbums.push(album);
+    }
+    localStorage.setItem('userAlbums', JSON.stringify(usrAlbums));
+    printAlbumSongs(album);
 });
 
 // $('#search-results').on('click', '.likeAlbum', function(event){
@@ -547,7 +536,8 @@ function printAlbumSongs(albumWithSongs){
     albumName.text(albumWithSongs.album.name);
     var albumArtist = $('<h4>');
     albumArtist.text(albumWithSongs.album.artist.name);
-    albumHeaderInfo.append(albumName, albumArtist);
+    var likeAlbumBtn = createAlbumOptions(albumWithSongs.album.id)
+    albumHeaderInfo.append(albumName, albumArtist, likeAlbumBtn);
     albumHeader.append(albumImg, albumHeaderInfo);
     $('#search-results').append(albumHeader);
 
@@ -597,15 +587,44 @@ function createSongOptions(songId) {
 
     var listElOne = $('<li>');
     var likeSong = $('<div>');
-    likeSong.text('Like Song');
+    var found = false;
+    for(var i = 0; i < usrSongs.length; i++){
+        if(usrSongs[i].id === songId){
+            found = true;
+        }
+    }
+    if(found){
+        likeSong.text('Unlike Song');
+    } else{
+        likeSong.text('Like Song');
+    }
     listElOne.append(likeSong);
     dropdownList.append(listElOne);
 
-    // var ListElTwo = $('<li>');
-    // var addTo = $('<div>');
-    // addTo.text('Add To Playlist');
-    // ListElTwo.append(addTo);
-    // dropdownList.append(ListElTwo);
-
     return dropdownList;
+}
+
+function createAlbumOptions(albumId) {
+    var likeAlbum = $('<button>');
+    likeAlbum.attr('id', 'likeAlbum')
+    likeAlbum.attr('class', 'btn waves-effect waves-light');
+    likeAlbum.attr('type', 'submit');
+    likeAlbum.attr('name', 'action');
+    var btnIcon = $('<i>');
+    btnIcon.attr('class', 'material-icons left');
+    var found = false;
+    for(var i = 0; i < usrAlbums.length; i++){
+        if(usrAlbums[i].album.id === albumId){
+            found = true;   
+        }
+    }
+    if(found){
+        likeAlbum.text('Unlike Album');
+        btnIcon.text('cancel');
+    } else {
+        likeAlbum.text('Like Album');
+        btnIcon.text('add_circle');
+    }
+    likeAlbum.append(btnIcon);
+    return likeAlbum;
 }

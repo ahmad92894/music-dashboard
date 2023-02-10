@@ -120,3 +120,7 @@ border-radius: 50%;
 .custom-song-container {
   height: 150px;
 }
+
+#likeAlbum {
+  width: fit-content;
+}
