@@ -16,7 +16,7 @@ fetch(url)
 //    console.log(eventType);
 
     let eventArray=[]
-    //console.log(eventArray)
+    ////console.log(eventArray)
 
     for (let i = 0; i < data.events.length; i++) {
        let eventTypes=data.events[i].type;
