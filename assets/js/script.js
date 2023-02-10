@@ -54,6 +54,7 @@ var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
 var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
 var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+var songOptionToggle = false;
 // var lastSeachResults = JSON.parse(localStorage.getItem('lastSearchResult')) || [];
 // var lastArtist = JSON.parse(localStorage.getItem('lastArtist')) || [];
 // var lastAlbum = JSON.parse(localStorage.getItem('lastAlbum')) || [];
@@ -234,34 +235,78 @@ $("#generic-search").autocomplete({
     source: searchHistory
 });
 
-$('#search-results').on('click', '.songOptions', function(event){
-    $(event.target).menu();
+$('#search-results').on('click', '.songOptions', function(e){
+    if(!songOptionToggle){
+        songOptionToggle = true;
+        $(e.target).menu({
+            select: function(event, ui) {
+                if(ui.textContent === '...Like SongAdd To Playlist'){
+                    //Pull up modal and add to specific playlist
+                } else {
+                    var songId = $(e.target).attr('data-song');
+                    var found = false;
+                    var likedSong
+                    var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
+                    var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
+                    for(var i = 0; i < songList1.length; i++){
+                        if(songId === songList1[i].id){
+                            found = true;
+                            likedSong = songList1[i];
+                        }
+                    }
+                    if(!found){
+                        for(var i = 0; i < songList2.length; i++){
+                            if(songId === songList2[i].id){
+                                found = true;
+                                likedSong = songList2[i];
+                            }
+                        }
+                    }
+                    var foundInStorage = false;
+                    for(var i = 0; i < usrSongs.length; i++){
+                        if(usrSongs[i].id === songId){
+                            usrSongs.splice(i, 1);
+                            foundInStorage = true;
+                        }
+                    }
+                    if(!foundInStorage){
+                        usrSongs.push(likedSong);
+                    }
+                    localStorage.setItem('userSongs', JSON.stringify(usrSongs));
+                    printAlbumSongs(JSON.parse(localStorage.getItem('lastAlbum')));
+                }
+            }
+        });
+    } else{
+        songOptionToggle = false;
+        printAlbumSongs(JSON.parse(localStorage.getItem('lastAlbum')));
+    }
 });
 
-$('#search-results').on('click', '.likeSong', function(event){
-    var songId = $(event.target).attr('data-song');
-    console.log(songId);
-    var found = false;
-    var likedSong
-    var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
-    var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
-    for(var i = 0; i < songList1.length; i++){
-        if(songId === songList1[i].id){
-            found = true;
-            likedSong = songList1[i];
-        }
-    }
-    if(!found){
-        for(var i = 0; i < songList2.length; i++){
-            if(songId === songList2[i].id){
-                found = true;
-                likedSong = songList2[i];
-            }
-        }
-    }
-    usrSongs.push(likedSong);
-    localStorage.setItem('userSongs', JSON.stringify(usrSongs));
-});
+// $('#search-results').on('click', '.likeSong', function(event){
+//     var songId = $(event.target).attr('data-song');
+//     console.log(songId);
+//     var found = false;
+//     var likedSong
+//     var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
+//     var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
+//     for(var i = 0; i < songList1.length; i++){
+//         if(songId === songList1[i].id){
+//             found = true;
+//             likedSong = songList1[i];
+//         }
+//     }
+//     if(!found){
+//         for(var i = 0; i < songList2.length; i++){
+//             if(songId === songList2[i].id){
+//                 found = true;
+//                 likedSong = songList2[i];
+//             }
+//         }
+//     }
+//     usrSongs.push(likedSong);
+//     localStorage.setItem('userSongs', JSON.stringify(usrSongs));
+// });
 
 $('#search-results').on('click', '.addSongToPlaylist', function(event){
 
@@ -516,7 +561,7 @@ function printAlbumSongs(albumWithSongs){
         var infoList = $('<ul>');
         infoList.attr('class', 'collection')
         var songInfo = $('<li>');
-        songInfo.attr('class', 'collection-item avatar');
+        songInfo.attr('class', 'collection-item avatar custom-song-container');
         var icon = $('<i>');
         icon.attr('class', 'material-icons circle teal lighten-3')
         icon.text('headset');
@@ -541,52 +586,26 @@ function printAlbumSongs(albumWithSongs){
         songsContainer.append(songRow);
     }
     $('#search-results').append(songsContainer);
+
 }
 
 function createSongOptions(songId) {
     var dropdownList = $('<ul>');
     dropdownList.attr('class', 'dropdown-trigger btn right songOptions');
+    dropdownList.attr('data-song', songId);
     dropdownList.text('...');
 
     var listElOne = $('<li>');
     var likeSong = $('<div>');
-    likeSong.attr('data-song', songId);
-    likeSong.attr('class', 'likeSong')
     likeSong.text('Like Song');
     listElOne.append(likeSong);
     dropdownList.append(listElOne);
 
-    var ListElTwo = $('<li>');
-    var addTo = $('<div>');
-    addTo.attr('data-song', songId);
-    addTo.attr('class', 'ui-state-disabled addToPlaylist')
-    addTo.text('Add To Playlist');
-    ListElTwo.append(addTo);
-    dropdownList.append(ListElTwo);
+    // var ListElTwo = $('<li>');
+    // var addTo = $('<div>');
+    // addTo.text('Add To Playlist');
+    // ListElTwo.append(addTo);
+    // dropdownList.append(ListElTwo);
 
-    var listElTest = $('<ul>');
-
-    var playList1 = $('<li>');
-    var playListName = $('<div>');
-    playListName.attr('data-song', songId);
-    playListName.attr('class', 'ui-state-disabled addToPlaylist')
-    playListName.text('Playlist 1');
-    listElTest.append(playList1);
-
-    var playList2 = $('<li>');
-    var playListName2 = $('<div>');
-    playListName2.attr('data-song', songId);
-    playListName2.attr('class', 'ui-state-disabled addToPlaylist')
-    playListName2.text('Playlist 2');
-    listElTest.append(playList2);
-
-    var playList3 = $('<li>');
-    var playListName3 = $('<div>');
-    playListName3.attr('data-song', songId);
-    playListName3.attr('class', 'ui-state-disabled addToPlaylist')
-    playListName3.text('Playlist 3');
-    listElTest.append(playList3);
-
-    dropdownList.append(listElTest);
     return dropdownList;
 }

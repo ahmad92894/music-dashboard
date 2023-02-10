@@ -106,5 +106,12 @@ border-radius: 50%;
     padding-left: 6.1px;
     
 }
-    
 
+.songOptions {
+    font-size: x-small;
+    width: fit-content;
+}
+    
+.custom-song-container {
+    height: 200px;
+}
