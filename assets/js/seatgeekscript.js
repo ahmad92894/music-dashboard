@@ -43,9 +43,9 @@ fetchButton.addEventListener('click', function(event){
         let tableHeader3=$("<th>");
             tableHeader3.text("Local Time");
             tableHeader3.attr("id", "table-header-3")
-        let tableRow1=$("<tr>");
-        let tableRow2=$("<tr>");
-        let tableRow3=$("<tr>");
+        // let tableRow1=$("<tr>");
+        // let tableRow2=$("<tr>");
+        // let tableRow3=$("<tr>");
         let tableBody=$("<tbody>");
      
       
@@ -55,11 +55,11 @@ fetchButton.addEventListener('click', function(event){
         tableHeadEl.append(tableRowEl);
 
         $("#table").append(tableHeadEl);
-        $("#table").append(tableBody);
+        //$("#table").append(tableBody);
 
-        tableBody.append(tableRow1);
-        tableBody.append(tableRow2);
-        tableBody.append(tableRow3);
+        // tableBody.append(tableRow1);
+        // tableBody.append(tableRow2);
+        // tableBody.append(tableRow3);
         
 
             for(var i= 0; i < eventArray.length;i++){
@@ -72,39 +72,52 @@ fetchButton.addEventListener('click', function(event){
             
         // let tdRowContainer=$("<div>");
         //     tdRowContainer.attr("class", "row");
-            let tdContainer1=$("<div>");
-            tdContainer1.attr("class", "col");
-            let tableDataArtist=$("<td>");
-            tableDataArtist.text(nameOfEvent);
-            console.log(tableDataArtist);
-                
-            tdContainer1.append(tableDataArtist);
-            tableRow1.append(tdContainer1)
-            tableBody.append(tableRow1);
-            $("#table").append(tableBody);
-            
-            let tdContainer2=$("<div>");
-            tdContainer2.attr("class", "col push-s6");
-        
-            let tableDataVenue=$("<td>")
-            tableDataVenue.text(nameOfVenue);
-            console.log(tableDataVenue);
-    
-            tdContainer2.append(tableDataVenue);
-            tableRow2.append(tdContainer2)
-            tableBody.append(tableRow2);
-            $("#table").append(tableBody);
+            let tableRow=$("<tr>");
 
-            let tdContainer3=$("<div>");
-            tdContainer3.attr("class", "col");
-            let tableDataTime=$("<td>")
-            tableDataTime.text(localStartTime);
-            console.log(tableDataTime);
+            let eventName = $("<td>");
+            let eventVenue = $("<td>");
+            let eventTime = $("<td>");
+
+            eventName.text(nameOfEvent);
+            eventVenue.text(nameOfVenue);
+            eventTime.text(timeFormatted);
+            
+            tableRow.append(eventName, eventVenue, eventTime);
+            
+            tableBody.append(tableRow);
+            // let tdContainer1=$("<div>");
+            // tdContainer1.attr("class", "col");
+            // let tableDataArtist=$("<td>");
+            // tableDataArtist.text(nameOfEvent);
+            // console.log(tableDataArtist);
+                
+            // tdContainer1.append(tableDataArtist);
+            // tableRow1.append(tdContainer1)
+            // tableBody.append(tableRow1);
+            // $("#table").append(tableBody);
+            
+            // let tdContainer2=$("<div>");
+            // tdContainer2.attr("class", "col push-s6");
+        
+            // let tableDataVenue=$("<td>")
+            // tableDataVenue.text(nameOfVenue);
+            // console.log(tableDataVenue);
     
-            tdContainer3.append(tableDataTime);
-            tableRow3.append(tdContainer3)
-            tableBody.append(tableRow3);
-            $("#table").append(tableBody);
+            // tdContainer2.append(tableDataVenue);
+            // tableRow2.append(tdContainer2)
+            // tableBody.append(tableRow2);
+            // $("#table").append(tableBody);
+
+            // let tdContainer3=$("<div>");
+            // tdContainer3.attr("class", "col");
+            // let tableDataTime=$("<td>")
+            // tableDataTime.text(localStartTime);
+            // console.log(tableDataTime);
+    
+            // tdContainer3.append(tableDataTime);
+            // tableRow3.append(tdContainer3)
+            // tableBody.append(tableRow3);
+            // $("#table").append(tableBody);
             
            
 
@@ -118,11 +131,8 @@ fetchButton.addEventListener('click', function(event){
             // listItem.textContent = nameOfEvent + " at the " + nameOfVenue + " starting at " + timeFormatted + " local time";
             // tableBody.appendChild(listItem);
 
-         
-            
-
             }
-            
+            $("#table").append(tableBody);
             
             //add code here to get the right information from variable data
             
