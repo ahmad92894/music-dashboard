@@ -42,20 +42,22 @@ nav .nav-wrapper {
 #custom-img {
     align-self: center;
     height: 50vh;
-    width: 50vw;
+    width: 80vw;
 }
 #img-container {
     display: flex;
     align-items: center;
     justify-content: center;
-   
+   background-color: rgb(0, 246, 246);
 }
-/* #eventsContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
+#table-container{
+    background-color: rgb(0, 246, 246);
 
+}
+#WTPA{
+    background-color: pink;
+    
+}
 .album-img {
     width: -webkit-fill-available;
     max-height: 297.5px;
