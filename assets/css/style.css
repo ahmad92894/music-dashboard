@@ -50,11 +50,11 @@ nav .nav-wrapper {
     justify-content: center;
    
 }
-#eventsContainer {
+/* #eventsContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 .album-img {
     width: -webkit-fill-available;
