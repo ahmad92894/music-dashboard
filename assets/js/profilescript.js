@@ -2,7 +2,7 @@ $('#go-to-search').on('click', function(){
     window.location.replace('./index.html')
 })
 
-var usrSongs = JSON.parse(localStorage.getItem('userSongs'));
+var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var codeBlock = $('#liked-songs');
 
 for(var i = 0; i < usrSongs.length; i++) {
