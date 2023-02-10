@@ -112,3 +112,11 @@ border-radius: 50%;
     
 }
 
+.songOptions{
+  width: fit-content;
+  font-size: small;
+}
+
+.custom-song-container {
+  height: 150px;
+}
