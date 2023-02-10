@@ -1,7 +1,8 @@
 function Artist(name, id){
     this.name = name,
     this.id = id
-}
+} 
+//blueprint for artist
 
 //Artist object that holds the artist name and their shazam ID, we can add more info if needed
 function ArtistWithAvatar(name, id, avatar, link){
@@ -25,20 +26,15 @@ function Album(name, artist, coverArtUrl, id){
     this.coverArtUrl = coverArtUrl;
     this.id = id;
 }
+
 function AlbumWithSongs(album, songs){
     this.album = album,
     this.songs = songs
 }
-//user created playlist that has a name and an Array of Songs
-function Playlist(name, songs) {
-    this.name = name, 
-    this.songs = songs;
-}
-//user object that holds an array of playlist objects, an array of album objects, and an array of song objects
-function User(playlists, albums, songs) {
-    this.playlists = playlists,
-    this.albums = albums, 
-    this.songs = songs;
+
+function ArtistCount(artist, count){
+    this.artist = artist;
+    this.count = count
 }
 
 const options = {
@@ -51,17 +47,14 @@ const options = {
 
 //local storage variables
 var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
-var usrAlbums = JSON.parse(localStorage.getItem('usrAlbums')) || [];
+var usrAlbums = JSON.parse(localStorage.getItem('userAlbums')) || [];
 var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+//drop down menu toggle
 var songOptionToggle = false;
-// var lastSeachResults = JSON.parse(localStorage.getItem('lastSearchResult')) || [];
-// var lastArtist = JSON.parse(localStorage.getItem('lastArtist')) || [];
-// var lastAlbum = JSON.parse(localStorage.getItem('lastAlbum')) || [];
-// var lastSearchStr = localStorage.getItem('lastSearchStr') || '';
 
 function genericSearch(searchTerm){ //this fetch call returns a list of top songs and top artists that closely match a given search string
-    console.log("Called Server!!!!!!!!");
+    $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/search?term=' + searchTerm + '&locale=en-US&offset=0&limit=10', options)
         .then(function(response) {
             return response.json();
@@ -99,6 +92,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
             console.log(data);
             console.log(data.tracks.hits[0].track.url);
             localStorage.setItem('lastSearchResult', JSON.stringify([userSongList, userArtistList]));
+            $('#loading-animation').css('visibility', 'hidden');
             printTopResults(userSongList, userArtistList);
 
       
@@ -106,7 +100,7 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
 }
 
 function artistSearch(artistId){ //this fetch targets a specific artist given the artists ID
-    console.log("Called Server!!!!!!!!");
+    $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/artists/get-summary?id=' + artistId + '&l=en-US', options)
     .then(function(response) {
         return response.json();
@@ -127,12 +121,13 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
             myAlbumList.push(newAlbum);
         }
         localStorage.setItem('lastArtist', JSON.stringify(myAlbumList));
+        $('#loading-animation').css('visibility', 'hidden');
         printArtistAlbums(myAlbumList);
     })
 }
 
 function albumSearch(albumId){ //this fetch targets a specific album given the albums specific ID
-    console.log("Called Server!!!!!!!!");
+    $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/albums/get-details?id=' + albumId + '&l=en-US', options)
     .then(function(response){
         return response.json();
@@ -157,6 +152,7 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
         var album = new Album(albumName, albumArtist, coverArtUrl, albumId);
         var completeAlbum = new AlbumWithSongs(album, albumSongs);
         localStorage.setItem('lastAlbum', JSON.stringify(completeAlbum));
+        $('#loading-animation').css('visibility', 'hidden');
         printAlbumSongs(completeAlbum);
     })
 }
@@ -164,26 +160,28 @@ function albumSearch(albumId){ //this fetch targets a specific album given the a
 $('#submit-btn').on('click', function(event){
     event.preventDefault();
     var usrInput = $('#generic-search').val();
-    usrInput = usrInput.trim();
-    var found = false;
-    for(var i = 0; i < searchHistory.length; i++){
-        if(searchHistory[i] === usrInput){
-            found = true;
+    if(usrInput){
+        usrInput = usrInput.trim();
+        var found = false;
+        for(var i = 0; i < searchHistory.length; i++){
+            if(searchHistory[i] === usrInput){
+                found = true;
+            }
         }
-    }
-    if(!found){
-        searchHistory.push(usrInput);
-        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    }
-    if(localStorage.getItem('lastSearchStr') === usrInput){
-        printTopResults(JSON.parse(localStorage.getItem('lastSearchResult'))[0], JSON.parse(localStorage.getItem('lastSearchResult'))[1]);
-    } else {
-        localStorage.setItem('lastSearchStr', usrInput)
-        if(usrInput.includes(' ')){
-            usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
-        }        
-        //will get the usr search into propper format, still need to implement a check that user didnt hit space twice in between words
-        genericSearch(usrInput);
+        if(!found){
+            searchHistory.push(usrInput);
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        }
+        if(localStorage.getItem('lastSearchStr') === usrInput){
+            printTopResults(JSON.parse(localStorage.getItem('lastSearchResult'))[0], JSON.parse(localStorage.getItem('lastSearchResult'))[1]);
+        } else {
+            localStorage.setItem('lastSearchStr', usrInput)
+            if(usrInput.includes(' ')){
+                usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
+            }        
+            //will get the usr search into propper format, still need to implement a check that user didnt hit space twice in between words
+            genericSearch(usrInput);
+        }
     }
 });
 
@@ -216,10 +214,16 @@ $('#search-results').on('click', '.album-link', function(event){
 });
 
 $('#go-to-concerts').on('click', function(){
+
+    getTopArtist();
     window.location.replace('./bandintownindex.html');
+
+    window.location.replace('./seatgeek.html');
+
 })
 
 $('#go-to-profile').on('click', function(){
+    getTopArtist();
     window.location.replace('./profile.html');
 })
 
@@ -239,42 +243,39 @@ $('#search-results').on('click', '.songOptions', function(e){
     if(!songOptionToggle){
         songOptionToggle = true;
         $(e.target).menu({
-            select: function(event, ui) {
-                if(ui.textContent === '...Like SongAdd To Playlist'){
-                    //Pull up modal and add to specific playlist
-                } else {
-                    var songId = $(e.target).attr('data-song');
-                    var found = false;
-                    var likedSong
-                    var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
-                    var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
-                    for(var i = 0; i < songList1.length; i++){
-                        if(songId === songList1[i].id){
-                            found = true;
-                            likedSong = songList1[i];
-                        }
+            select: function() {
+                songOptionToggle = false;
+                var songId = $(e.target).attr('data-song');
+                var found = false;
+                var likedSong
+                var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
+                var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
+                for(var i = 0; i < songList1.length; i++){
+                    if(songId === songList1[i].id){
+                        found = true;
+                        likedSong = songList1[i];
                     }
-                    if(!found){
-                        for(var i = 0; i < songList2.length; i++){
-                            if(songId === songList2[i].id){
-                                found = true;
-                                likedSong = songList2[i];
-                            }
-                        }
-                    }
-                    var foundInStorage = false;
-                    for(var i = 0; i < usrSongs.length; i++){
-                        if(usrSongs[i].id === songId){
-                            usrSongs.splice(i, 1);
-                            foundInStorage = true;
-                        }
-                    }
-                    if(!foundInStorage){
-                        usrSongs.push(likedSong);
-                    }
-                    localStorage.setItem('userSongs', JSON.stringify(usrSongs));
-                    printAlbumSongs(JSON.parse(localStorage.getItem('lastAlbum')));
                 }
+                if(!found){
+                    for(var i = 0; i < songList2.length; i++){
+                        if(songId === songList2[i].id){
+                            found = true;
+                            likedSong = songList2[i];
+                        }
+                    }
+                }
+                var foundInStorage = false;
+                for(var i = 0; i < usrSongs.length; i++){
+                    if(usrSongs[i].id === songId){
+                        usrSongs.splice(i, 1);
+                        foundInStorage = true;
+                    }
+                }
+                if(!foundInStorage){
+                    usrSongs.push(likedSong);
+                }
+                localStorage.setItem('userSongs', JSON.stringify(usrSongs));
+                printAlbumSongs(JSON.parse(localStorage.getItem('lastAlbum')));
             }
         });
     } else{
@@ -283,39 +284,22 @@ $('#search-results').on('click', '.songOptions', function(e){
     }
 });
 
-// $('#search-results').on('click', '.likeSong', function(event){
-//     var songId = $(event.target).attr('data-song');
-//     console.log(songId);
-//     var found = false;
-//     var likedSong
-//     var songList1 = JSON.parse(localStorage.getItem('lastAlbum')).songs;
-//     var songList2 = JSON.parse(localStorage.getItem('lastSearchResult'))[0];
-//     for(var i = 0; i < songList1.length; i++){
-//         if(songId === songList1[i].id){
-//             found = true;
-//             likedSong = songList1[i];
-//         }
-//     }
-//     if(!found){
-//         for(var i = 0; i < songList2.length; i++){
-//             if(songId === songList2[i].id){
-//                 found = true;
-//                 likedSong = songList2[i];
-//             }
-//         }
-//     }
-//     usrSongs.push(likedSong);
-//     localStorage.setItem('userSongs', JSON.stringify(usrSongs));
-// });
-
-$('#search-results').on('click', '.addSongToPlaylist', function(event){
-
+$('#search-results').on('click', '#likeAlbum', function(event){
+    var album = JSON.parse(localStorage.getItem('lastAlbum'));
+    var albumId = album.album.id;
+    var found = false;
+    for(var i = 0; i < usrAlbums.length; i++){
+        if(usrAlbums[i].album.id === albumId){
+            found = true;
+            usrAlbums.splice(i, 1);
+        }
+    }
+    if(!found){
+        usrAlbums.push(album);
+    }
+    localStorage.setItem('userAlbums', JSON.stringify(usrAlbums));
+    printAlbumSongs(album);
 });
-
-// $('#search-results').on('click', '.likeAlbum', function(event){
-    
-// });
-
 
 function printTopResults(userSongList, userArtistList){
     $('#search-results').empty();
@@ -451,12 +435,14 @@ function printTopResults(userSongList, userArtistList){
 
 function printArtistAlbums(myAlbumList){
     $('#search-results').empty();
-    var backToSearch = $('<button>');
+    var backToSearch = $('<a>');
     backToSearch.attr('id', 'backToSearchResult');
     backToSearch.attr('class', 'btn waves-effect waves-light');
     backToSearch.attr('type', 'submit');
     backToSearch.attr('name', 'action');
     backToSearch.text('Back To Search Results');
+    backToSearch.css({'position':'-webkit-sticky', 'position':'sticky', 'top':'0'});
+    backToSearch.attr('href', '#search-results');
     var btnIcon = $('<i>');
     btnIcon.attr('class', 'material-icons left');
     btnIcon.text('arrow_back');
@@ -500,17 +486,24 @@ function printArtistAlbums(myAlbumList){
         albumImg.append(imgEl, ablumTitle);
         var cardContent = $('<div>');
         cardContent.attr('class', 'card-content');
+        cardContent.css({"display":"flex", 'justify-content':'space-between'});
+        var artistContainer = $('<div>');
+        artistContainer.css("width", "70%");
         var artistEl = $('<p>');
+        artistEl.css({'overflow':'hidden', 'white-space':'nowrap'});
         artistEl.text(myAlbumList[i].artist.name);
+        artistContainer.append(artistEl);
+        var linkContainer = $('<div>');
         var albumLink = $('<a>');
         albumLink.attr('class', 'btn-floating waves-effect waves-light red right');
+        albumLink.attr('href', '#welcome-paragraph');
         var icon = $('<i>');
         icon.attr('class', 'material-icons album-link');
         icon.attr('data-album', myAlbumList[i].id);
         icon.text('send');
         albumLink.append(icon);
-        artistEl.append(albumLink);
-        cardContent.append(artistEl);
+        linkContainer.append(albumLink);
+        cardContent.append(artistContainer, linkContainer);
         albumCard.append(albumImg, cardContent);
         albumSize.append(albumCard);
         albumRow.append(albumSize);
@@ -521,12 +514,14 @@ function printArtistAlbums(myAlbumList){
 
 function printAlbumSongs(albumWithSongs){
     $('#search-results').empty();
-    var backToAlbums = $('<button>');
+    var backToAlbums = $('<a>');
     backToAlbums.attr('id', 'backToAlbums')
     backToAlbums.attr('class', 'btn waves-effect waves-light');
     backToAlbums.attr('type', 'submit');
     backToAlbums.attr('name', 'action');
     backToAlbums.text('Back To Albums');
+    backToAlbums.css({'position':'-webkit-sticky', 'position':'sticky', 'top':'0'});
+    backToAlbums.attr('href', '#search-results');
     var btnIcon = $('<i>');
     btnIcon.attr('class', 'material-icons left');
     btnIcon.text('arrow_back');
@@ -547,7 +542,8 @@ function printAlbumSongs(albumWithSongs){
     albumName.text(albumWithSongs.album.name);
     var albumArtist = $('<h4>');
     albumArtist.text(albumWithSongs.album.artist.name);
-    albumHeaderInfo.append(albumName, albumArtist);
+    var likeAlbumBtn = createAlbumOptions(albumWithSongs.album.id)
+    albumHeaderInfo.append(albumName, albumArtist, likeAlbumBtn);
     albumHeader.append(albumImg, albumHeaderInfo);
     $('#search-results').append(albumHeader);
 
@@ -568,15 +564,11 @@ function printAlbumSongs(albumWithSongs){
         var songTitle = $('<span>');
         songTitle.attr('class', 'title');
         songTitle.text(albumWithSongs.songs[i].name);
-//songOptions Btn------------------------------
-
+        songTitle.css('font-size', 'xxx-large');
         var likeSong = createSongOptions(albumWithSongs.songs[i].id);
-
-//---------------------------------------
-
-
         var subTitle = $('<p>');
         subTitle.text(albumWithSongs.songs[i].artist.name);
+        subTitle.css('margin-top', '40px');
         var newLine = $('<br>');
         subTitle.append(newLine);
         songInfo.append(icon, songTitle, likeSong, subTitle);
@@ -597,15 +589,77 @@ function createSongOptions(songId) {
 
     var listElOne = $('<li>');
     var likeSong = $('<div>');
-    likeSong.text('Like Song');
+    var found = false;
+    for(var i = 0; i < usrSongs.length; i++){
+        if(usrSongs[i].id === songId){
+            found = true;
+        }
+    }
+    if(found){
+        likeSong.text('Unlike Song');
+    } else{
+        likeSong.text('Like Song');
+    }
     listElOne.append(likeSong);
     dropdownList.append(listElOne);
 
-    // var ListElTwo = $('<li>');
-    // var addTo = $('<div>');
-    // addTo.text('Add To Playlist');
-    // ListElTwo.append(addTo);
-    // dropdownList.append(ListElTwo);
-
     return dropdownList;
+}
+
+function createAlbumOptions(albumId) {
+    var likeAlbum = $('<button>');
+    likeAlbum.attr('id', 'likeAlbum')
+    likeAlbum.attr('class', 'btn waves-effect waves-light');
+    likeAlbum.attr('type', 'submit');
+    likeAlbum.attr('name', 'action');
+    var btnIcon = $('<i>');
+    btnIcon.attr('class', 'material-icons left');
+    var found = false;
+    for(var i = 0; i < usrAlbums.length; i++){
+        if(usrAlbums[i].album.id === albumId){
+            found = true;   
+        }
+    }
+    if(found){
+        likeAlbum.text('Unlike Album');
+        btnIcon.text('cancel');
+    } else {
+        likeAlbum.text('Like Album');
+        btnIcon.text('add_circle');
+    }
+    likeAlbum.append(btnIcon);
+    return likeAlbum;
+}
+
+function getTopArtist(){
+    var topArtist = [];
+    for(var i = 0; i < usrSongs.length; i++){
+        var newArtist = true;
+        for(var j = 0; j < topArtist.length; j++){
+            if(usrSongs[i].artist.name === topArtist[j].artist.name){
+                newArtist = false;
+                topArtist[j].count++;
+            }
+        }
+        if(newArtist){
+            var newFavArtist = new ArtistCount(usrSongs[i].artist, 1);
+            topArtist.push(newFavArtist);
+        }
+    }
+
+    for(var i = 0; i < usrAlbums.length; i++){
+        var newArtist = true;
+        for(var j = 0; j < topArtist.length; j++){
+            if(usrAlbums[i].album.artist.name === topArtist[j].artist.name){
+                newArtist = false;
+                topArtist[j].count = topArtist[j].count + 5;
+            }
+        }
+        if(newArtist){
+            var newFavArtist = new ArtistCount(usrAlbums[i].album.artist, 5);
+            topArtist.push(newFavArtist);
+        }
+    }
+    topArtist.sort((a, b) => b.count - a.count);
+    localStorage.setItem('topArtists', JSON.stringify(topArtist));
 }
