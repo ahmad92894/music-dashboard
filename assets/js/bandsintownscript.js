@@ -2,7 +2,7 @@ $('#go-to-search').on('click', function(){
     window.location.replace('./index.html')
 })
 
-let url="https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b"
+
 
 // let navEl=$("<nav>");
 // let navWrapperDiv=$("<div>");
@@ -46,54 +46,49 @@ let url="https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4
 // }
 // )
 
-fetch(url)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-    //   console.log(data)
-
-    let eventType=data.events;
-//    console.log(eventType);
-
-    let eventArray=[]
-    ////console.log(eventArray)
-
-    for (let i = 0; i < data.events.length; i++) {
-       let eventTypes=data.events[i].type;
-    //    console.log(eventTypes);
-        // console.log(eventTypes);
-        eventArray.push(eventTypes);
-
-        if(eventArray[i]==="concert") {
-            //console.log("concert")
-        } else {
-            //console.log('not concert')
-        }
-            //search bar 1
-        
-}})
-
+// 
 var tableBody = document.getElementById('api-table');
 var fetchButton = document.getElementById('fetch-button');
-var Url=("https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b")
-var url2=("https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b")
-function getApi(){
-// document.addEventListener("click",getApi)
-fetch(url2)
+
+var URL=("https://api.seatgeek.com/2/events?client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b")
+
+
+
+
+let postalURL = 'https://api.seatgeek.com/2/venues?postal_code= + userZipSearch'
+
+// artistSearchButton.on("click", function (){
+
+fetch(URL)
     .then(function(response){return response.json()})
 	.then(function(data){
+        
         console.log(data);
 
         for (var i = 0; i < data.length; i++) {
-            var listItem = document.createElement('li');
-            listItem.textContent = data[i].html_url;
-            tableBody.appendChild(listItem);
-            //console.log(data[i])
+        // let events=data
+
+        let userArtistSearch=userArtistText.val;
+console.log(userArtistSearch);
+        
+           
         }
-    });}
-    
-fetchButton.addEventListener('click', getApi);
+    });
+
+let artistSearchButton=$("#artist-button");
+let zipSearchButton=$("#zip-button");
+let artistSearchText=$("#artist-search");
+let zipSearchText=$("#zip-search");
+
+artistSearchButton.on("click", function() {
+
+
+
+
+let artistSearchInput=artistSearchText.val;
+console.log(artistSearchInput);
+
+
 
 var userZip = 60201;
 var userSearch = "hank mobley"; //taylor-swift
@@ -118,6 +113,28 @@ fetch('https://api.seatgeek.com/2/performers?slug=' + userSearch + '&client_id=M
     })
     .then(function(data){
         console.log(data);
+
+    
+    
+
+    let recommendations=data.recommendations[0].event.title;
+    console.log(recommendations);
+
+    for (let i = 0; i < recommendations.length; i++) {
+        
+        let recContainerDiv=$("<div>");
+        recContainerDiv.attr("id", "something");
+        let pEl=$("<p>");
+        pEl.text="something";
+        recContainerDiv.append(pEl);
+
+
+    }
+})
+   
+    
+
+
 
 
             //add code here to get the right information from variable data
