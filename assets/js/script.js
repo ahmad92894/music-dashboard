@@ -213,8 +213,12 @@ $('#search-results').on('click', '.album-link', function(event){
 });
 
 $('#go-to-concerts').on('click', function(){
+
     getTopArtist();
     window.location.replace('./bandintownindex.html');
+
+    window.location.replace('./seatgeek.html');
+
 })
 
 $('#go-to-profile').on('click', function(){
