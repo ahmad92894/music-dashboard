@@ -93,38 +93,53 @@ fetch(url2)
         }
     });}
     
-fetchButton.addEventListener('click', getApi);
+fetchButton.addEventListener('click', function(event){
 
-var userZip = 60201;
-var userSearch = "hank mobley"; //taylor-swift
-var artistId
-userSearch = userSearch.trim();
-userSearch = userSearch.replace(' ', '-')
-
-
-fetch('https://api.seatgeek.com/2/performers?slug=' + userSearch + '&client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b')
-.then(function(response){
-    return response.json();
-})
-.then(function(data){
-    console.log(data);
-    artistId = data.performers[0].id;
-
-    console.log(artistId);
+    var userZip = document.getElementById('zip-search').value;
+    var userSearch = document.getElementById('artist-search').value;
+    var artistId
+    userSearch = userSearch.trim();
+    userSearch = userSearch.replace(' ', '-')
     
-    fetch('https://api.seatgeek.com/2/recommendations?performers.id=' + artistId + '&postal_code=' + userZip + '&client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4')
+    
+    fetch('https://api.seatgeek.com/2/performers?slug=' + userSearch + '&client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4&client_secret=4fc93e4026f14705f22aa198d72446ccf014abbb3eed9e0e859909fc50868d0b')
     .then(function(response){
         return response.json();
     })
     .then(function(data){
         console.log(data);
+        artistId = data.performers[0].id;
+        
+        console.log(artistId);
+        
+        fetch('https://api.seatgeek.com/2/recommendations?performers.id=' + artistId + '&postal_code=' + userZip + '&client_id=MzE4NDUyNTh8MTY3NTk2OTYzMS4wMDM2NTg4')
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+            console.log(data.recommendations)
+            var eventArray = data.recommendations;
+            
+            for(var index= 0;index<eventArray.length;index++){
+                //console.log(eventArray[index].event); //event
+                var nameOfEvent = eventArray[index].event.title //event.title
+                var nameOfVenue = eventArray[index].event.venue.name 
+                var localStartTime = eventArray[index].event.datetime_local
+                var timeFormatted = dayjs(localStartTime).format('h:mmA ddd, MMM D, YYYY')
 
-
+                var listItem = document.createElement('li');
+                listItem.textContent = nameOfEvent + " at the " + nameOfVenue + " starting at " + timeFormatted + " local time";
+                tableBody.appendChild(listItem);
+            }
+            
+            
             //add code here to get the right information from variable data
-
-
-
+            
+            
+            
+        })
     })
-})
-
+    
+});
 
