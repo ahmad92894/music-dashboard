@@ -34,10 +34,15 @@ nav .nav-wrapper {
 .container {
     text-decoration-color: aqua;
 }
+#search-bar {
+  width: 25%
+}
+
+
 #custom-img {
     align-self: center;
-    height: 100vh;
-    width: 100vw;
+    height: 50vh;
+    width: 50vw;
 }
 #img-container {
     display: flex;
@@ -106,7 +111,6 @@ border-radius: 50%;
     padding-left: 6.1px;
     
 }
-    
 
 
 
@@ -238,7 +242,7 @@ root {
     justify-content: flex-start;
     min-height: 100%;
     padding: 2rem;
-    color: var(--heliotrope)
+    color: var(--heliotrope);
     outline: 2px dashed var(--gin);
   outline-offset: -2px;
   transition: all 0.5s ease-in-out;
