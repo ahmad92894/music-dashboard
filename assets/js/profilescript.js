@@ -38,7 +38,7 @@ for(var i = 0; i < usrArtists.length; i++) {
 var usrAlbum = JSON.parse(localStorage.getItem('userAlbums')) || [];
 var codeBlock3 = $('#top-Album');
 
-for(var i = 0; i < usrArtists.length; i++) {
+for(var i = 0; i < usrAlbum.length; i++) {
     var albumStr = i+1 + ". " + usrAlbum[i].album.name;
     var addAlbum = $('<span>');
     addAlbum.text(albumStr);
