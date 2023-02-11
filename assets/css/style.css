@@ -10,7 +10,6 @@
 #welcome-header {
     font-family: 'Bebas Neue', cursive;
 }
-
 #welcome-paragraph {
     padding-bottom: 2vh;
     font-family: 'Oswald', sans-serif;
@@ -34,9 +33,9 @@ nav .nav-wrapper {
 .container {
     text-decoration-color: aqua;
 }
-/* #search-bar {
+#search-bar {
   width: 25%
-} */
+}
 
 
 #custom-img {
@@ -50,13 +49,13 @@ nav .nav-wrapper {
     justify-content: center;
    background-color: #25d4c3;
 }
-#table-container{
-    /* background-color: #bfbbbb; */
+#table-container {
+   font-family:brush 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
 #WTPA{
     background-color: #ef9a9a;
-    
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .album-img {
     width: -webkit-fill-available;
