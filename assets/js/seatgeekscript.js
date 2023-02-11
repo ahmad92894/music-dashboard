@@ -88,7 +88,6 @@ fetchButton.addEventListener('click', function(event){
             // tableBody.append(tableRow);
             let tableRow=$("<tr>");
             tableRow.attr("class", "row");
-            // tableRow.css("display", "flex");
             let tdContainer1=$("<div>");
             tdContainer1.attr("class", "col s8");
             let tableDataArtist=$("<td>");
@@ -115,7 +114,7 @@ fetchButton.addEventListener('click', function(event){
             tdContainer3.attr("class", "col s2");
             let tableDataTime=$("<td>")
             tableDataTime.text(timeFormatted);
-            console.log(tableDataTime);
+            // console.log(tableDataTime);
     
             tdContainer3.append(tableDataTime);
             tableRow.append(tdContainer3)
