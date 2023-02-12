@@ -39,16 +39,17 @@ nav .nav-wrapper {
 .container {
     text-decoration-color: aqua;
 }
+
 #search-bar2 {
-width: 25%;
-
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4vh;
 }
-
 
 #header-text {
     font-family: 'Bebas Neue', cursive;
     margin: 0;
-   
     padding: 2vh 0 2vh 33vw;
 }
 
@@ -58,20 +59,24 @@ width: 25%;
     height: 50vh;
     width: 80vw;
 }
+
 #img-container {
     display: flex;
     align-items: center;
     justify-content: center;
    background-color: #25d4c3;
 }
+
 #table-container {
    font-family:brush 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
+
 #WTPA{
     background-color: #ef9a9a;
    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
 .album-img {
     width: -webkit-fill-available;
     height: 200px;
@@ -98,19 +103,17 @@ width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 25%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 4vh;
+}
+
+#generic-search {
+    width : 40vw;
 }
 
 #artist-search {
-    width: 60%;
     text-align: center;
 }
 
 #zip-search {
-    width: 60%;
     text-align: center;
 }
 
@@ -123,7 +126,6 @@ width: 25%;
     /* margin-left: 46vw; */
     display: flex;
     justify-content: center;
-  
 }
 
 .collection {
@@ -132,29 +134,28 @@ width: 25%;
 }
 
 #artist-icon-image {
-height: 7.9vh;
-width: 5vw;
-float: right;
-border-radius: 50%;
-
+    height: 7.9vh;
+    width: 5vw;
+    float: right;
+    border-radius: 50%;
 }
 
 #listen-icons {
-     height: 42px;
+    height: 42px;
     border-radius: 100%;
     padding-top: 2.8px;
     padding-left: 6.1px;
 }
 
 .songOptions{
-  width: fit-content;
-  font-size: small;
+    width: fit-content;
+    font-size: small;
 }
 
 .custom-song-container {
-  height: 150px;
+    height: 150px;
 }
 
 #likeAlbum {
-  width: fit-content;
+    width: fit-content;
 }
