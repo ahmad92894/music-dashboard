@@ -2,36 +2,28 @@ function Artist(name, id){
     this.name = name,
     this.id = id
 } 
-//blueprint for artist
-
-//Artist object that holds the artist name and their shazam ID, we can add more info if needed
 function ArtistWithAvatar(name, id, avatar, link){
     this.name = name,
     this.id = id;
     this.avatar = avatar,
     this.link = link
 }
-//Song object that holds song name, artist object and song id (can add more info if we want)
 function Song(name, artist, id, link){
     this.name = name,
     this.artist = artist,
     this.id = id;
     this.link = link;
 }
-//Album object that holds album name, artist, a url to the coverart, and album id
-//coverart url needs desired dimensions as parameter otherwise it will not work
 function Album(name, artist, coverArtUrl, id){
     this.name = name,
     this.artist = artist,
     this.coverArtUrl = coverArtUrl;
     this.id = id;
 }
-
 function AlbumWithSongs(album, songs){
     this.album = album,
     this.songs = songs
 }
-
 function ArtistCount(artist, count){
     this.artist = artist;
     this.count = count
@@ -45,36 +37,26 @@ const options = {
 	}
 };
 
-//local storage variables
 var usrPlaylists = JSON.parse(localStorage.getItem('playlists')) || [];
 var usrAlbums = JSON.parse(localStorage.getItem('userAlbums')) || [];
 var usrSongs = JSON.parse(localStorage.getItem('userSongs')) || [];
 var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-//drop down menu toggle
 var songOptionToggle = false;
 
-function genericSearch(searchTerm){ //this fetch call returns a list of top songs and top artists that closely match a given search string
+function genericSearch(searchTerm){ 
     $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/search?term=' + searchTerm + '&locale=en-US&offset=0&limit=10', options)
         .then(function(response) {
             return response.json();
         })
-        .then(function(data){
-
-
-            console.log(data);
-         
+        .then(function(data){         
             var topSongs = data.tracks.hits;
-           
             var userSongList=[];
-            //console.log(userSongList)
-
             for(var i = 0; i < topSongs.length; i++){
-                var songName = topSongs[i].track.title;             //song title
-                var songId = topSongs[i].track.key;                 //song id
+                var songName = topSongs[i].track.title;
+                var songId = topSongs[i].track.key;
                 var songLink = topSongs[i].track.url;
                 var artist = new Artist(topSongs[i].track.subtitle, topSongs[i].track.artists[0].adamid)
-                                        //artist                    //artist id
                 var song = new Song(songName, artist, songId, songLink);
                 userSongList.push(song);
             }
@@ -85,29 +67,21 @@ function genericSearch(searchTerm){ //this fetch call returns a list of top song
                 var artistAvatar = topArtists[i].artist.avatar;
                 let artistButtonLink=data.artists.hits[0].artist.weburl;
                 var artist = new ArtistWithAvatar(topArtists[i].artist.name, topArtists[i].artist.adamid, artistAvatar, artistButtonLink);
-                userArtistList.push(artist)
-
-                
+                userArtistList.push(artist)   
             }
-            console.log(data);
-            console.log(data.tracks.hits[0].track.url);
             localStorage.setItem('lastSearchResult', JSON.stringify([userSongList, userArtistList]));
             $('#loading-animation').css('visibility', 'hidden');
             printTopResults(userSongList, userArtistList);
-
-      
         })
 }
 
-function artistSearch(artistId){ //this fetch targets a specific artist given the artists ID
+function artistSearch(artistId){ 
     $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/artists/get-summary?id=' + artistId + '&l=en-US', options)
     .then(function(response) {
         return response.json();
     })
     .then(function(data){
-        console.log(data);
-        //retrieve data
         var myAlbumList = [];
         var albumsObj = data.resources.albums;
         for(var album in albumsObj){
@@ -126,14 +100,13 @@ function artistSearch(artistId){ //this fetch targets a specific artist given th
     })
 }
 
-function albumSearch(albumId){ //this fetch targets a specific album given the albums specific ID
+function albumSearch(albumId){
     $('#loading-animation').css('visibility', 'visible');
     fetch('https://shazam.p.rapidapi.com/albums/get-details?id=' + albumId + '&l=en-US', options)
     .then(function(response){
         return response.json();
     })
     .then(function(data){
-        //store data
         var albumSongs = [];
         var songArray = data.data[0].relationships.tracks.data;
         var artistAvatar = songArray[0].attributes.avatar;
@@ -177,9 +150,8 @@ $('#submit-btn').on('click', function(event){
         } else {
             localStorage.setItem('lastSearchStr', usrInput)
             if(usrInput.includes(' ')){
-                usrInput = usrInput.replaceAll(' ', '%20'); // "kiss%20the%20rain"
+                usrInput = usrInput.replaceAll(' ', '%20');
             }        
-            //will get the usr search into propper format, still need to implement a check that user didnt hit space twice in between words
             genericSearch(usrInput);
         }
     }
@@ -214,12 +186,8 @@ $('#search-results').on('click', '.album-link', function(event){
 });
 
 $('#go-to-concerts').on('click', function(){
-
     getTopArtist();
-    window.location.replace('./bandintownindex.html');
-
     window.location.replace('./seatgeek.html');
-
 })
 
 $('#go-to-profile').on('click', function(){
@@ -284,7 +252,7 @@ $('#search-results').on('click', '.songOptions', function(e){
     }
 });
 
-$('#search-results').on('click', '#likeAlbum', function(event){
+$('#search-results').on('click', '#likeAlbum', function(){
     var album = JSON.parse(localStorage.getItem('lastAlbum'));
     var albumId = album.album.id;
     var found = false;
@@ -307,7 +275,7 @@ function printTopResults(userSongList, userArtistList){
     topResults.attr('class', 'row');
     topResults.attr('id', 'row');
     $('#search-results').append(topResults);
-            // JC edits
+
     let searchHeaderContainer1=$("<div>");
     searchHeaderContainer1.attr("class", "col s6")
                                 
@@ -325,7 +293,6 @@ function printTopResults(userSongList, userArtistList){
     searchHeaderContainer1.append(searchNav1);
     $("#row").append(searchHeaderContainer1);
 
-
     let searchHeaderContainer2=$("<div>");
     searchHeaderContainer2.attr("class", "col s6")
                         
@@ -342,8 +309,6 @@ function printTopResults(userSongList, userArtistList){
                     
     searchHeaderContainer2.append(searchNav2);
     $("#row").append(searchHeaderContainer2);
-
-                    //search history list stems
         
     let divSearchColumns=$("<div>");
     divSearchColumns.addClass("col s6");
@@ -353,7 +318,6 @@ function printTopResults(userSongList, userArtistList){
     for (let i = 0; i < userSongList.length; i++) {
         
         let listenButtonLink=userSongList[i].link;
-        // console.log(listenButtonLink);
             
         let liSearchHistory=$("<li>");
         liSearchHistory.addClass("collection-item avatar");
@@ -363,10 +327,7 @@ function printTopResults(userSongList, userArtistList){
         artistLink.attr('data-artist', userSongList[i].artist.id);
         artistLink.text(userSongList[i].artist.name);
         liSearchHistory.append(artistLink);
-        //     let icon=$("<i>");
-        //     icon.addClass("small material-icons circle #80cbc4 teal lighten-2");
-        //     icon.text("headset");
-        //     liSearchHistory.append(icon);
+
         let listenButton=$("<a>");
         listenButton.attr("href", listenButtonLink);
         listenButton.attr("target","_blank");
@@ -376,7 +337,7 @@ function printTopResults(userSongList, userArtistList){
         listenIcon.addClass("material-icons");
         listenIcon.attr("id", "listen-icons");
         listenIcon.text("headset");
-        //     icon.text("headset");
+
         listenButton.append(listenIcon);
         liSearchHistory.append(listenButton);
         ulSearchHistory.append(liSearchHistory);
@@ -393,21 +354,15 @@ function printTopResults(userSongList, userArtistList){
 
         let listenButtonLink=userArtistList[i].link;
         
-        // let artistButtonLink=data.artists.hits[i].artist.weburl;
-        // console.log(artistButtonLink);
         let artistIcon=userArtistList[i].avatar;
         let artistIconImg=$("<img>");
         artistIconImg.attr("id", "artist-icon-image")
         artistIconImg.attr("src", artistIcon);
-        // artistIconImg.attr("id", artistAvatar)
         
         let liArtistHistory=$("<li>");
         liArtistHistory.addClass("collection-item avatar artist-link");
         liArtistHistory.attr('data-artist', userArtistList[i].id);
         liArtistHistory.text(userArtistList[i].name);
-        // let icon=$("<i>");
-        // icon.addClass("small material-icons circle #80cbc4 teal lighten-3");
-        // icon.text("headset");
 
         let listenButton=$("<a>");
         listenButton.attr("href", listenButtonLink);
@@ -418,18 +373,14 @@ function printTopResults(userSongList, userArtistList){
         listenIcon.addClass("material-icons");
         listenIcon.attr("id", "listen-icons");
         listenIcon.text("headset");
-        //     icon.text("headset");
+
         listenButton.append(listenIcon);
         liArtistHistory.append(listenButton);
 
-        // liArtistHistory.append(icon);
         liArtistHistory.append(artistIconImg);
         ulArtistHistory.append(liArtistHistory);
         divArtistColumns.append(ulArtistHistory);
         $("#row").append(divArtistColumns);
-
-        
-        
     }
 }
 
@@ -578,7 +529,6 @@ function printAlbumSongs(albumWithSongs){
         songsContainer.append(songRow);
     }
     $('#search-results').append(songsContainer);
-
 }
 
 function createSongOptions(songId) {

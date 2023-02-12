@@ -3,7 +3,9 @@
     color: blue;
     text-decoration: underline;
     cursor: pointer;
-}#custom-search-bars {
+}
+
+#custom-search-bars {
     margin-bottom: 5px;
 }
 
@@ -30,14 +32,10 @@ nav .nav-wrapper {
 .row {
     margin-bottom: 0;
 }
-/* .nav-wrapper */
+
 .container {
     text-decoration-color: aqua;
 }
-/* #search-bar {
-  width: 25%
-} */
-
 
 #custom-img {
     align-self: center;
@@ -60,13 +58,12 @@ nav .nav-wrapper {
 }
 .album-img {
     width: -webkit-fill-available;
-    max-height: 297.5px;
+    height: 200px;
 }
 
 .album-title {
     display: flex;
     white-space: nowrap;
-    /* overflow: scroll; */
     overflow: hidden;
 }
 
@@ -100,18 +97,15 @@ nav .nav-wrapper {
 height: 7.9vh;
 width: 5vw;
 float: right;
-/* margin-right: 20vw; */
 border-radius: 50%;
 
 }
 
 #listen-icons {
      height: 42px;
-    /* width: 42px; */
     border-radius: 100%;
     padding-top: 2.8px;
     padding-left: 6.1px;
-    
 }
 
 .songOptions{
