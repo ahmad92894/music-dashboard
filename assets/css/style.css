@@ -21,10 +21,14 @@ nav .nav-wrapper {
     font-family: 'Oswald', sans-serif;
     
 }
+
 .btn {
     background-color: #25d4c3;
     margin-bottom: 3vh;
     
+}
+.page-title {
+    font-family: 'Bebas Neue', cursive;
 }
 
 .row {
@@ -41,7 +45,8 @@ nav .nav-wrapper {
 #header-text {
     font-family: 'Bebas Neue', cursive;
     margin: 0;
-    padding-left: 33vw;
+   
+    padding: 2vh 0 2vh 33vw;
 }
 
 
