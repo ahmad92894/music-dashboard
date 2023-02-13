@@ -28,11 +28,10 @@ function ArtistCount(artist, count){
     this.artist = artist;
     this.count = count
 }
-
 const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': 'b4ec89dc57mshfd788e7303adbe9p130446jsn75e937b16068',
+		'X-RapidAPI-Key': 'f7ea3ed455msh8396b102bf3e2eep18e822jsnd806546c5aab',
 		'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
 	}
 };
