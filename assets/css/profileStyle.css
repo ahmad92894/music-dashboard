@@ -1,14 +1,63 @@
 /* Anita's third page starts below */
-root {
-    --outer-space: #33393f;
-    --bright-turquoise: #2aefcb;
-    --gin: #e0eae4;
-    --heliotrope: #e866ec;
-  }
+
+.music-profile {
+  background-color: white;
+  text-shadow:5px 5px 10px plum;
+  font-weight: 900;
+  font-family:cursive;
+  color: black;
   
-  /* set content highlight color and background */
+  height: 150px;
+  width: 350px;
+  border-radius: 255px;
+  border-color:white;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 30px;
+  box-shadow: 10px 10px 10px #A858a8;
+
+}
+
+.music-profile:hover {
+  box-shadow:10px 10px 10px #EF9A9a;
+  background-color:  #3f9d94;
+  box-shadow: 10px 10px 10px #EF9A9A;
+
+}
+
+.some-of-your-favorites {
+  background-color: #A858a8;
+  color: white;
+  /* border: none; */
+  height: 80px;
+  width: 200px;
+  border-radius: 5px;
+  font-family: fantasy;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 10px 10px 10px rgb(35, 32, 32);
+  ;
+
+
+}
+
+.some-of-your-favorites:hover {
+  background-color: #EF9A9A;
+  box-shadow:10px 10px 10px #3f9d94;
+
+}
+
+
+:root {
+  --outer-space:rgb(81, 100, 121);
+  --bright-turquoise: rgb(57, 10, 68);
+  --gin: purple;
+  --heliotrope: rgb(168, 88, 168);
+  cursor: pointer;
+}
+  
   ::selection {
-    background-color: var(--bright-turquoise);
+    background-color: turquoise;
     color: var(--outer-space);
   }
   
@@ -18,16 +67,15 @@ root {
   }
   
   body {
-    /* Sans Serif font stack is implemented to help select the best font for each type of computer operating system */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-      Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    font-family: cursive, fantasy, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, Roboto, Helvetica, BlinkMacSystemFont, 'Segoe UI', 'Segoe UI Symbol', 'Apple Color Emoji';
   
-    /* set body font size to 1.75rem, which is 1.75x more than the font-size of 10px, making it 17.5px  */
-    font-size: 1.75rem;
-    line-height: 1.5;
-    color: var(--gin);
-    background-color: var(--outer-space);
-  }
+    
+  font-size: 2.0rem;
+  line-height: 1.5;
+  color: purple;
+  background-color:white;
+}
   
   h1,
   h2,
@@ -70,15 +118,17 @@ root {
   }
   
   code {
-    /* Monospace font stack is used for our code blocks to make it look more like code */
-    font-family: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console',
+    /* /* Monospace font stack is used for our code blocks to make it look more like code
+     */
+
+      font-family: fantasy, sans-serif, cursive, Consolas, Andale Mono WT', 'Andale Mono', 'Lucida Console',
       'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
       'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier,
-      monospace;
+      monospace; 
   }
   
   header {
-    width: 96%;
+    width: 100%;
     margin: 0 auto;
     padding: 2.5rem;
     text-align: center;
@@ -86,7 +136,7 @@ root {
   
   header h1.page-title {
     padding: 1rem 1.2rem;
-    font-size: 4.5rem;
+    font-size: 7.4rem;
   }
   
   main {
@@ -117,6 +167,7 @@ root {
     /* when the screen resizes, make it so our columns don't jump in size */
     transition: flex-basis 500ms linear;
     margin-bottom: 1.5rem;
+    box-shadow: 5px 5px 10px #d49aef;
   }
   
   /* make each code card a flexbox column to align and justify content within it */
@@ -126,10 +177,8 @@ root {
     justify-content: flex-start;
     min-height: 100%;
     padding: 2rem;
-    color: var(--heliotrope)
-    /* outline: 2px dashed var(--gin);
-  outline-offset: -2px;
-  transition: all 0.5s ease-in-out; */
+    color: var(--heliotrope);
+    
 }
 
 .code-card .card-header {
@@ -142,6 +191,7 @@ root {
   border: 2px solid var(--gin);
   border-radius: 8px;
   transition: all 0.5s ease-in-out;
+  
 }
 
 /* set an outer and inner drop shadow on the card to create a glowing effect on hover */
